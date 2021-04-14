@@ -2,7 +2,7 @@
 #include "ui_widget.h"
 #include <QLocalSocket>
 #include <QTextStream>
-
+//hola
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
