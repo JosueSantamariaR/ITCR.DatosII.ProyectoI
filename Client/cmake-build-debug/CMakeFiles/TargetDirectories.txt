@@ -1,0 +1,3 @@
+C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/CMakeFiles/CInterpreter.dir
+C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/CMakeFiles/rebuild_cache.dir

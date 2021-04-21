@@ -40,6 +40,9 @@
    </property>
   </widget>
   <widget class="QTableWidget" name="ramLiveView">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>437</x>
@@ -218,6 +221,9 @@
    </item>
   </widget>
   <widget class="QPlainTextEdit" name="plainTextEdit_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -287,7 +293,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_20">
+  <widget class="QPushButton" name="clearLogButton">
    <property name="geometry">
     <rect>
      <x>720</x>
@@ -363,27 +369,27 @@
     <string>Server exit</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>340</width>
-     <height>27</height>
+     <width>395</width>
+     <height>30</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_10">
     <item>
-     <widget class="QPushButton" name="pushButton_19">
+     <widget class="QPushButton" name="startButton">
       <property name="text">
-       <string>Restart</string>
+       <string>Star</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_17">
+     <widget class="QPushButton" name="pushButton_19">
       <property name="text">
-       <string>Star</string>
+       <string>Restart</string>
       </property>
      </widget>
     </item>

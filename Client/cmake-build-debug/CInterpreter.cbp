@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="CInterpreter"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="CInterpreter">
+				<Option output="C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/CInterpreter.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/mingw32"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/backward"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include-fixed"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/Makefile&quot;  VERBOSE=1 CInterpreter"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="CInterpreter/fast">
+				<Option output="C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/CInterpreter.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/mingw32"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include/c++/backward"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../include"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/include-fixed"/>
+					<Add directory="c:\mingw\bin\../lib/gcc/mingw32/6.3.0/../../../../mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/Makefile&quot;  VERBOSE=1 CInterpreter/fast"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/Interpreter/Interpreter.cpp">
+			<Option target="CInterpreter"/>
+		</Unit>
+		<Unit filename="C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/Interpreter/Interpreter.h">
+			<Option target="CInterpreter"/>
+		</Unit>
+		<Unit filename="C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/Structure/Declarations.cpp">
+			<Option target="CInterpreter"/>
+		</Unit>
+		<Unit filename="C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/Structure/Declarations.h">
+			<Option target="CInterpreter"/>
+		</Unit>
+		<Unit filename="C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/Structure/FuncDefinition.cpp">
+			<Option target="CInterpreter"/>
+		</Unit>
+		<Unit filename="C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/Structure/FuncDefinition.h">
+			<Option target="CInterpreter"/>
+		</Unit>
+		<Unit filename="C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/Tokens/Tokenizer.cpp">
+			<Option target="CInterpreter"/>
+		</Unit>
+		<Unit filename="C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/Tokens/Tokenizer.h">
+			<Option target="CInterpreter"/>
+		</Unit>
+		<Unit filename="C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/Types/VarTypes.cpp">
+			<Option target="CInterpreter"/>
+		</Unit>
+		<Unit filename="C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/Types/VarTypes.h">
+			<Option target="CInterpreter"/>
+		</Unit>
+		<Unit filename="C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/main.cpp">
+			<Option target="CInterpreter"/>
+		</Unit>
+		<Unit filename="C:/Users/garroakion/Desktop/PARSERQT/CInterpreter/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

@@ -16,10 +16,22 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Interpreter/Interpreter.cpp \
+    Structure/Declarations.cpp \
+    Structure/FuncDefinition.cpp \
+    Tokens/Tokenizer.cpp \
+    Types/VarTypes.cpp \
     main.cpp \
     widget.cpp
 
 HEADERS += \
+    Interpreter/Interpreter.h \
+    Structure/Declarations.h \
+    Structure/FuncDefinition.h \
+    Tokens/Tokenizer.h \
+    Types/VarTypes.h \
+    optional.h \
+    optional.hpp \
     widget.h
 
 FORMS += \
@@ -30,3 +42,6 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 QMAKE_CXXFLAGS += -std=gnu++11
+
+DISTFILES += \
+    test.myc
