@@ -1,5 +1,5 @@
 #include "serverInterface.h"
-#include "ui_serverInterface.h".h"
+#include "ui_serverInterface.h"
 #include "serverSends.h"
 #include <QMessageBox>
 serverInterface::serverInterface(QWidget *parent)

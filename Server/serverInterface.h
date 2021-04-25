@@ -2,6 +2,7 @@
 #define SERVERWINDOW_H
 
 #include <QWidget>
+//prueba de error
 
 namespace Ui {
 class serverInterface;
