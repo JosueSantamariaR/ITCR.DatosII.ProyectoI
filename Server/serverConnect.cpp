@@ -4,23 +4,23 @@
 #include <QJsonParseError>
 #include <QJsonObject>
 
-ServerWorker::ServerWorker(QObject *parent)
+serverConnect::serverConnect(QObject *parent)
     : QObject(parent)
     , m_serverSocket(new QTcpSocket(this))
 {
     // connect readyRead() to the slot that will take care of reading the data in
-    connect(m_serverSocket, &QTcpSocket::readyRead, this, &ServerWorker::receiveJson);
+    connect(m_serverSocket, &QTcpSocket::readyRead, this, &serverConnect::receiveJson);
     // forward the disconnected and error signals coming from the socket
-    connect(m_serverSocket, &QTcpSocket::disconnected, this, &ServerWorker::disconnectedFromClient);
-    connect(m_serverSocket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, &ServerWorker::error);
+    connect(m_serverSocket, &QTcpSocket::disconnected, this, &serverConnect::disconnectedFromClient);
+    connect(m_serverSocket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, &serverConnect::error);
 }
 
-bool ServerWorker::setSocketDescriptor(qintptr socketDescriptor)
+bool serverConnect::setSocketDescriptor(qintptr socketDescriptor)
 {
     return m_serverSocket->setSocketDescriptor(socketDescriptor);
 }
 
-void ServerWorker::sendJson(const QJsonObject &json)
+void serverConnect::sendJson(const QJsonObject &json)
 {
     // we crate a temporary QJsonDocument forom the object and then convert it
     // to its UTF-8 encoded version. We use QJsonDocument::Compact to save bandwidth
@@ -31,12 +31,12 @@ void ServerWorker::sendJson(const QJsonObject &json)
     socketStream << jsonData;
 }
 
-void ServerWorker::disconnectFromClient()
+void serverConnect::disconnectFromClient()
 {
     m_serverSocket->disconnectFromHost();
 }
 
-void ServerWorker::receiveJson()
+void serverConnect::receiveJson()
 {
     // prepare a container to hold the UTF-8 encoded JSON we receive from the socket
     QByteArray jsonData;

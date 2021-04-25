@@ -5,12 +5,12 @@
 #include <QObject>
 #include <QTcpSocket>
 class QJsonObject;
-class ServerWorker : public QObject
+class serverConnect : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY(ServerWorker)
+    Q_DISABLE_COPY(serverConnect)
 public:
-    explicit ServerWorker(QObject *parent = nullptr);
+    explicit serverConnect(QObject *parent = nullptr);
     virtual bool setSocketDescriptor(qintptr socketDescriptor);
 
     void sendJson(const QJsonObject &jsonData);

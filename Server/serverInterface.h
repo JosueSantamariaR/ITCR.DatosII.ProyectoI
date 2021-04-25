@@ -4,18 +4,18 @@
 #include <QWidget>
 
 namespace Ui {
-class ServerWindow;
+class serverInterface;
 }
 class serverSends;
-class ServerWindow : public QWidget
+class serverInterface : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(ServerWindow)
+    Q_DISABLE_COPY(serverInterface)
 public:
-    explicit ServerWindow(QWidget *parent = nullptr);
-    ~ServerWindow();
+    explicit serverInterface(QWidget *parent = nullptr);
+    ~serverInterface();
 private:
-    Ui::ServerWindow *ui;
+    Ui::serverInterface *ui;
     serverSends *m_chatServer;
 private slots:
     void toggleStartServer();

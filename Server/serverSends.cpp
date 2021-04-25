@@ -13,26 +13,26 @@ serverSends::serverSends(QObject *parent)
 
 void serverSends::incomingConnection(qintptr socketDescriptor)
 {
-    ServerWorker *worker = new ServerWorker(this);
+    serverConnect *worker = new serverConnect(this);
     if (!worker->setSocketDescriptor(socketDescriptor)) {
         worker->deleteLater();
         return;
     }
-    connect(worker, &ServerWorker::disconnectedFromClient, this, std::bind(&serverSends::userDisconnected, this, worker));
-    connect(worker, &ServerWorker::error, this, std::bind(&serverSends::userError, this, worker));
-    connect(worker, &ServerWorker::jsonReceived, this, std::bind(&serverSends::jsonReceived, this, worker, std::placeholders::_1));
-    connect(worker, &ServerWorker::logMessage, this, &serverSends::logMessage);
+    connect(worker, &serverConnect::disconnectedFromClient, this, std::bind(&serverSends::userDisconnected, this, worker));
+    connect(worker, &serverConnect::error, this, std::bind(&serverSends::userError, this, worker));
+    connect(worker, &serverConnect::jsonReceived, this, std::bind(&serverSends::jsonReceived, this, worker, std::placeholders::_1));
+    connect(worker, &serverConnect::logMessage, this, &serverSends::logMessage);
     m_clients.append(worker);
     emit logMessage(QStringLiteral("New client Connected"));
 }
-void serverSends::sendJson(ServerWorker *destination, const QJsonObject &message)
+void serverSends::sendJson(serverConnect *destination, const QJsonObject &message)
 {
     Q_ASSERT(destination);
     destination->sendJson(message);
 }
-void serverSends::broadcast(const QJsonObject &message, ServerWorker *exclude)
+void serverSends::broadcast(const QJsonObject &message, serverConnect *exclude)
 {
-    for (ServerWorker *worker : m_clients) {
+    for (serverConnect *worker : m_clients) {
         Q_ASSERT(worker);
         if (worker == exclude)
             continue;
@@ -40,21 +40,21 @@ void serverSends::broadcast(const QJsonObject &message, ServerWorker *exclude)
     }
 }
 
-void serverSends::jsonReceived(ServerWorker *sender, const QJsonObject &doc)
+void serverSends::jsonReceived(serverConnect *sender, const QJsonObject &doc)
 {
     Q_ASSERT(sender);
     emit logMessage(QLatin1String("JSON received ") + QString::fromUtf8(QJsonDocument(doc).toJson()));
     jsonFromLoggedIn(sender, doc);
 }
 
-void serverSends::userDisconnected(ServerWorker *sender)
+void serverSends::userDisconnected(serverConnect *sender)
 {
     m_clients.removeAll(sender);
     emit logMessage(QLatin1String(" disconnected"));
     sender->deleteLater();
 }
 
-void serverSends::userError(ServerWorker *sender)
+void serverSends::userError(serverConnect *sender)
 {
     Q_UNUSED(sender)
     emit logMessage(QLatin1String("Error from client"));
@@ -62,13 +62,13 @@ void serverSends::userError(ServerWorker *sender)
 
 void serverSends::stopServer()
 {
-    for (ServerWorker *worker : m_clients) {
+    for (serverConnect *worker : m_clients) {
         worker->disconnectFromClient();
     }
     close();
 }
 
-void serverSends::jsonFromLoggedIn(ServerWorker *sender, const QJsonObject &docObj)
+void serverSends::jsonFromLoggedIn(serverConnect *sender, const QJsonObject &docObj)
 {
     Q_ASSERT(sender);
     const QJsonValue typeVal = docObj.value(QLatin1String("type"));

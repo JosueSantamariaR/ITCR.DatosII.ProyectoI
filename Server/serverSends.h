@@ -4,7 +4,7 @@
 #include <QTcpServer>
 #include <QVector>
 class QThread;
-class ServerWorker;
+class serverConnect;
 class serverSends : public QTcpServer
 {
     Q_OBJECT
@@ -18,14 +18,14 @@ signals:
 public slots:
     void stopServer();
 private slots:
-    void broadcast(const QJsonObject &message, ServerWorker *exclude);
-    void jsonReceived(ServerWorker *sender, const QJsonObject &doc);
-    void userDisconnected(ServerWorker *sender);
-    void userError(ServerWorker *sender);
+    void broadcast(const QJsonObject &message, serverConnect *exclude);
+    void jsonReceived(serverConnect *sender, const QJsonObject &doc);
+    void userDisconnected(serverConnect *sender);
+    void userError(serverConnect *sender);
 private:
-    void jsonFromLoggedIn(ServerWorker *sender, const QJsonObject &doc);
-    void sendJson(ServerWorker *destination, const QJsonObject &message);
-    QVector<ServerWorker *> m_clients;
+    void jsonFromLoggedIn(serverConnect *sender, const QJsonObject &doc);
+    void sendJson(serverConnect *destination, const QJsonObject &message);
+    QVector<serverConnect *> m_clients;
 };
 
 #endif // CHATSERVER_H

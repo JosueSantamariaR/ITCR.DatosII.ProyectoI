@@ -1,23 +1,23 @@
 #include "serverInterface.h"
-#include "ui_serverwindow.h"
+#include "ui_serverInterface.h".h"
 #include "serverSends.h"
 #include <QMessageBox>
-ServerWindow::ServerWindow(QWidget *parent)
+serverInterface::serverInterface(QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::ServerWindow)
+    , ui(new Ui::serverInterface)
     , m_chatServer(new serverSends(this))
 {
     ui->setupUi(this);
-    connect(ui->startStopButton, &QPushButton::clicked, this, &ServerWindow::toggleStartServer);
-    connect(m_chatServer, &serverSends::logMessage, this, &ServerWindow::logMessage);
+    connect(ui->startStopButton, &QPushButton::clicked, this, &serverInterface::toggleStartServer);
+    connect(m_chatServer, &serverSends::logMessage, this, &serverInterface::logMessage);
 }
 
-ServerWindow::~ServerWindow()
+serverInterface::~serverInterface()
 {
     delete ui;
 }
 
-void ServerWindow::toggleStartServer()
+void serverInterface::toggleStartServer()
 {
     if (m_chatServer->isListening()) {
         m_chatServer->stopServer();
@@ -33,7 +33,7 @@ void ServerWindow::toggleStartServer()
     }
 }
 
-void ServerWindow::logMessage(const QString &msg)
+void serverInterface::logMessage(const QString &msg)
 {
     ui->logEditor->appendPlainText(msg + QLatin1Char('\n'));
 }
