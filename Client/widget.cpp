@@ -4,10 +4,14 @@
 #include <QTextStream>
 #include "Tokens/Tokenizer.h"
 #include "Interpreter/Interpreter.h"
+#include "clientsends.h"
 #include <iostream>
 #include<QTextStream>
 #include <QFile>
-
+#include <QStandardItemModel>
+#include <QInputDialog>
+#include <QMessageBox>
+#include <QHostAddress>
 
 using namespace std;
 using namespace interpreter;
@@ -17,25 +21,83 @@ using namespace interpreter;
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
+    , m_chatClient(new clientSends(this)) // create the chat client
+    , m_chatModel(new QStandardItemModel(this)) // create the model to hold the messages
 {
     ui->setupUi(this);
-    mSocket= new QLocalSocket(this);
-    connect(mSocket,&QLocalSocket::readyRead,[&]()
-     { QTextStream T(mSocket);
-            ui->listWidget->addItem(T.readAll());
-    });
+    // the model for the messages will have 1 column
+
+    // connect the signals from the chat client to the slots in this ui
+    connect(m_chatClient, &clientSends::connected, this, &Widget::connectedToServer);
+    connect(m_chatClient, &clientSends::messageReceived, this, &Widget::messageReceived);
+    connect(m_chatClient, &clientSends::disconnected, this, &Widget::disconnectedFromServer);
+    connect(m_chatClient, &clientSends::error, this, &Widget::error);
+
+    // connect the connect button to a slot that will attempt the connection
+    m_chatClient->connectToServer(QHostAddress("127.0.0.1"), 1967);
+    // connect the click of the "send" button and the press of the enter while typing to the slot that sends the message
+    connect(ui->startButton, &QPushButton::clicked, this, &Widget::sendMessage);
+
 }
 
 Widget::~Widget()
 {
     delete ui;
 }
-
-
-void Widget::on_connect_clicked()
+void Widget::connectedToServer()
 {
-    mSocket->connectToServer(ui->servertex->text());
+    // once we connected to the server we ask the user for what username they would like to use
+    ui->startButton->setEnabled(true);
+    ui->plainTextEdit->setEnabled(true);
+    ui->plainTextEdit_2->setEnabled(true);
 }
+void Widget::messageReceived( const QString &text)
+{
+    // store the index of the new row to append to the model containing the messages
+    int newRow = m_chatModel->rowCount();
+    // we display a line containing the username only if it's different from the last username we displayed
+
+    m_chatModel->insertRow(newRow);
+
+    // store the message in the model
+    m_chatModel->setData(m_chatModel->index(newRow, 0), text);
+    // set the alignment for the message
+    m_chatModel->setData(m_chatModel->index(newRow, 0), int(Qt::AlignLeft | Qt::AlignVCenter), Qt::TextAlignmentRole);
+    // scroll the view to display the new message
+
+}
+void Widget::sendMessage()
+{
+    // we use the client to send the message that the user typed
+    m_chatClient->sendMessage(ui->plainTextEdit->toPlainText());
+    // now we add the message to the list
+    // store the index of the new row to append to the model containing the messages
+    const int newRow = m_chatModel->rowCount();
+    // insert a row for the message
+    m_chatModel->insertRow(newRow);
+    // store the message in the model
+    m_chatModel->setData(m_chatModel->index(newRow, 0), ui->plainTextEdit->toPlainText());
+    // set the alignment for the message
+    m_chatModel->setData(m_chatModel->index(newRow, 0), int(Qt::AlignRight | Qt::AlignVCenter), Qt::TextAlignmentRole);
+    // clear the content of the message editor
+    ui->plainTextEdit->clear();
+    // scroll the view to display the new message
+
+
+}
+
+void Widget::disconnectedFromServer()
+{
+    // if the client loses connection to the server
+    // comunicate the event to the user via a message box
+    QMessageBox::warning(this, tr("Disconnected"), tr("The host terminated the connection"));
+    // disable the ui to send and display messages
+
+    ui->plainTextEdit->setEnabled(false);
+    // enable the button to connect to the server again
+
+}
+
 
 void Widget::on_exit_clicked()
 {
@@ -49,14 +111,14 @@ void Widget::on_startButton_clicked()
 
         try {
 
-                QString filename = "C:\\Users\\garroakion\\Desktop\\ITCR.DatosII.ProyectoI\\Client\\test.myc";
+                QString filename = "./test.myc";
                 QFile file(filename);
                     if (file.open(QIODevice::ReadWrite)) {
                             QTextStream stream(&file);
                             stream<< ui->plainTextEdit->toPlainText();
                         }
 
-                FILE *fh = fopen("C:\\Users\\garroakion\\Desktop\\ITCR.DatosII.ProyectoI\\Client\\test.myc", "r");
+                FILE *fh = fopen("./test.myc", "r");
                 if (!fh) { cerr << "Can't find file." << endl; }
                 fseek(fh, 0, SEEK_END);
                 size_t fileSize = ftell(fh);
@@ -110,10 +172,68 @@ void Widget::on_clearLogButton_clicked()
     ui->plainTextEdit_2->clear();
 
 
-    QString filename = "C:\\Users\\garroakion\\Desktop\\ITCR.DatosII.ProyectoI\\Client\\test.myc";
+    QString filename = "./test.myc";
     QFile file(filename);
     if (file.open(QIODevice::WriteOnly| QIODevice::Truncate)) {
             QTextStream stream(&file);
             stream.reset();
         }
+}
+
+void Widget::error(QAbstractSocket::SocketError socketError)
+{
+    // show a message to the user that informs of what kind of error occurred
+    switch (socketError) {
+    case QAbstractSocket::RemoteHostClosedError:
+    case QAbstractSocket::ProxyConnectionClosedError:
+        return; // handled by disconnectedFromServer
+    case QAbstractSocket::ConnectionRefusedError:
+        QMessageBox::critical(this, tr("Error"), tr("The host refused the connection"));
+        break;
+    case QAbstractSocket::ProxyConnectionRefusedError:
+        QMessageBox::critical(this, tr("Error"), tr("The proxy refused the connection"));
+        break;
+    case QAbstractSocket::ProxyNotFoundError:
+        QMessageBox::critical(this, tr("Error"), tr("Could not find the proxy"));
+        break;
+    case QAbstractSocket::HostNotFoundError:
+        QMessageBox::critical(this, tr("Error"), tr("Could not find the server"));
+        break;
+    case QAbstractSocket::SocketAccessError:
+        QMessageBox::critical(this, tr("Error"), tr("You don't have permissions to execute this operation"));
+        break;
+    case QAbstractSocket::SocketResourceError:
+        QMessageBox::critical(this, tr("Error"), tr("Too many connections opened"));
+        break;
+    case QAbstractSocket::SocketTimeoutError:
+        QMessageBox::warning(this, tr("Error"), tr("Operation timed out"));
+        return;
+    case QAbstractSocket::ProxyConnectionTimeoutError:
+        QMessageBox::critical(this, tr("Error"), tr("Proxy timed out"));
+        break;
+    case QAbstractSocket::NetworkError:
+        QMessageBox::critical(this, tr("Error"), tr("Unable to reach the network"));
+        break;
+    case QAbstractSocket::UnknownSocketError:
+        QMessageBox::critical(this, tr("Error"), tr("An unknown error occured"));
+        break;
+    case QAbstractSocket::UnsupportedSocketOperationError:
+        QMessageBox::critical(this, tr("Error"), tr("Operation not supported"));
+        break;
+    case QAbstractSocket::ProxyAuthenticationRequiredError:
+        QMessageBox::critical(this, tr("Error"), tr("Your proxy requires authentication"));
+        break;
+    case QAbstractSocket::ProxyProtocolError:
+        QMessageBox::critical(this, tr("Error"), tr("Proxy comunication failed"));
+        break;
+    case QAbstractSocket::TemporaryError:
+    case QAbstractSocket::OperationError:
+        QMessageBox::warning(this, tr("Error"), tr("Operation failed, please try again"));
+        return;
+    default:
+        Q_UNREACHABLE();
+    }
+
+    ui->plainTextEdit->setEnabled(false);
+
 }

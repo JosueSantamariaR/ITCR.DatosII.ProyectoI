@@ -21,6 +21,7 @@ SOURCES += \
     Structure/FuncDefinition.cpp \
     Tokens/Tokenizer.cpp \
     Types/VarTypes.cpp \
+    clientsends.cpp \
     main.cpp \
     widget.cpp
 
@@ -30,6 +31,7 @@ HEADERS += \
     Structure/FuncDefinition.h \
     Tokens/Tokenizer.h \
     Types/VarTypes.h \
+    clientsends.h \
     optional.h \
     optional.hpp \
     widget.h

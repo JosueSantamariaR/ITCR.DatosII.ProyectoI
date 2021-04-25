@@ -3,14 +3,15 @@
 
 
 #include <QWidget>
-
+#include <QAbstractSocket>
 QT_BEGIN_NAMESPACE
+class clientSends;
+class QStandardItemModel;
 namespace Ui { class Widget; }
 QT_END_NAMESPACE
 class QLocalSocket;
 class Widget : public QWidget
 {
-
 
     Q_OBJECT
 
@@ -24,9 +25,15 @@ private slots:
     void on_exit_clicked();
     void on_startButton_clicked();
     void on_clearLogButton_clicked();
+    void connectedToServer();
+    void messageReceived(const QString &text);
+    void sendMessage();
+    void disconnectedFromServer();
+    void error(QAbstractSocket::SocketError socketError);
 
 private:
     Ui::Widget *ui;
-    QLocalSocket *mSocket;
+    clientSends *m_chatClient;
+    QStandardItemModel *m_chatModel;
 };
 #endif // WIDGET_H

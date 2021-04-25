@@ -1,12 +1,9 @@
-#include "widget.h"
-
 #include <QApplication>
-
+#include "serverInterface.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    a.setStyle("fusion");
-    widget w;
-    w.show();
+    ServerWindow serverWin;
+    serverWin.show();
     return a.exec();
 }
