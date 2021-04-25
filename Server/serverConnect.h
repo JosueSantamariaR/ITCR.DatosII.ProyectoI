@@ -1,5 +1,6 @@
 #ifndef SERVERWORKER_H
 #define SERVERWORKER_H
+//Prueba de errores
 
 #include <QObject>
 #include <QTcpSocket>
