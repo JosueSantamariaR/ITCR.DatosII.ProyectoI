@@ -9,14 +9,14 @@ CONFIG += debug_and_release
 
 HEADERS += \
     serverConnect.h \
-    serverInterface.h \
-    serverSends.h
+    serverSends.h \
+    serverwindow.h
 
 SOURCES += \
     main.cpp \
     serverConnect.cpp \
-    serverInterface.cpp \
-    serverSends.cpp
+    serverSends.cpp \
+    serverwindow.cpp
 
 FORMS += \
-    serverInterface.ui
+    serverwindow.ui

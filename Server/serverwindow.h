@@ -2,21 +2,20 @@
 #define SERVERWINDOW_H
 
 #include <QWidget>
-//prueba de error
 
 namespace Ui {
-class serverInterface;
+class ServerWindow;
 }
 class serverSends;
-class serverInterface : public QWidget
+class ServerWindow : public QWidget
 {
     Q_OBJECT
-    Q_DISABLE_COPY(serverInterface)
+    Q_DISABLE_COPY(ServerWindow)
 public:
-    explicit serverInterface(QWidget *parent = nullptr);
-    ~serverInterface();
+    explicit ServerWindow(QWidget *parent = nullptr);
+    ~ServerWindow();
 private:
-    Ui::serverInterface *ui;
+    Ui::ServerWindow *ui;
     serverSends *m_chatServer;
 private slots:
     void toggleStartServer();
