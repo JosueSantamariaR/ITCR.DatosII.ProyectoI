@@ -24,7 +24,7 @@ namespace interpreter{
         vector<VarTypes> mFields; // for STRUCT only.
     };
 
-    };
+    }
 
 
 

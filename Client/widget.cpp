@@ -68,45 +68,6 @@ void Widget::messageReceived( const QString &text)
 }
 void Widget::sendMessage()
 {
-    // we use the client to send the message that the user typed
-    m_chatClient->sendMessage(ui->plainTextEdit->toPlainText());
-    // now we add the message to the list
-    // store the index of the new row to append to the model containing the messages
-    const int newRow = m_chatModel->rowCount();
-    // insert a row for the message
-    m_chatModel->insertRow(newRow);
-    // store the message in the model
-    m_chatModel->setData(m_chatModel->index(newRow, 0), ui->plainTextEdit->toPlainText());
-    // set the alignment for the message
-    m_chatModel->setData(m_chatModel->index(newRow, 0), int(Qt::AlignRight | Qt::AlignVCenter), Qt::TextAlignmentRole);
-    // clear the content of the message editor
-    ui->plainTextEdit->clear();
-    // scroll the view to display the new message
-
-
-}
-
-void Widget::disconnectedFromServer()
-{
-    // if the client loses connection to the server
-    // comunicate the event to the user via a message box
-    QMessageBox::warning(this, tr("Disconnected"), tr("The host terminated the connection"));
-    // disable the ui to send and display messages
-
-    ui->plainTextEdit->setEnabled(false);
-    // enable the button to connect to the server again
-
-}
-
-
-void Widget::on_exit_clicked()
-{
-    close();
-}
-
-
-void Widget::on_startButton_clicked()
-{
     static QString a;
 
         try {
@@ -164,6 +125,49 @@ void Widget::on_startButton_clicked()
 
             ui->plainTextEdit_2->setPlainText(a);
 
+
+
+
+    m_chatClient->sendMessage(ui->plainTextEdit->toPlainText());
+    // now we add the message to the list
+    // store the index of the new row to append to the model containing the messages
+    const int newRow = m_chatModel->rowCount();
+    // insert a row for the message
+    m_chatModel->insertRow(newRow);
+    // store the message in the model
+    m_chatModel->setData(m_chatModel->index(newRow, 0), ui->plainTextEdit->toPlainText());
+    // set the alignment for the message
+    m_chatModel->setData(m_chatModel->index(newRow, 0), int(Qt::AlignRight | Qt::AlignVCenter), Qt::TextAlignmentRole);
+    // clear the content of the message editor
+
+
+
+
+
+
+}
+
+void Widget::disconnectedFromServer()
+{
+    // if the client loses connection to the server
+    // comunicate the event to the user via a message box
+    QMessageBox::warning(this, tr("Disconnected"), tr("The host terminated the connection"));
+    // disable the ui to send and display messages
+
+    ui->plainTextEdit->setEnabled(false);
+    // enable the button to connect to the server again
+
+}
+
+
+void Widget::on_exit_clicked()
+{
+    close();
+}
+
+
+void Widget::on_startButton_clicked()
+{
 
 }
 
