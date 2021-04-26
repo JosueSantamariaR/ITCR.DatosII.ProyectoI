@@ -31,6 +31,10 @@ private slots:
     void disconnectedFromServer();
     void error(QAbstractSocket::SocketError socketError);
 
+    void on_pushButton_19_clicked();
+
+    void on_pushButton_18_clicked();
+
 private:
     Ui::Widget *ui;
     clientSends *m_chatClient;

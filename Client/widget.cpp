@@ -12,6 +12,7 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QHostAddress>
+#include <QtCore>
 
 using namespace std;
 using namespace interpreter;
@@ -70,62 +71,51 @@ void Widget::sendMessage()
 {
     static QString a;
 
-        try {
+    try {
 
-                QString filename = "./test.myc";
-                QFile file(filename);
-                    if (file.open(QIODevice::ReadWrite)) {
-                            QTextStream stream(&file);
-                            stream<< ui->plainTextEdit->toPlainText();
-                        }
+            QString filename = "/home/garroakion/Desktop/C!/ITCR.DatosII.ProyectoI/Client/test.myc";
+            QFile file(filename);
+                if (file.open(QIODevice::ReadWrite)) {
+                        QTextStream stream(&file);
+                        stream<< ui->plainTextEdit->toPlainText();
+                    }
 
-                FILE *fh = fopen("./test.myc", "r");
-                if (!fh) { cerr << "Can't find file." << endl; }
-                fseek(fh, 0, SEEK_END);
-                size_t fileSize = ftell(fh);
-                fseek(fh, 0, SEEK_SET);
-                string fileContents(fileSize, ' ');
-                fread((void *) fileContents.data(), 1, fileSize, fh);
+            FILE *fh = fopen("/home/garroakion/Desktop/C!/ITCR.DatosII.ProyectoI/Client/test.myc", "r");
+            if (!fh) { cerr << "Can't find file." << endl; }
+            fseek(fh, 0, SEEK_END);
+            size_t fileSize = ftell(fh);
+            fseek(fh, 0, SEEK_SET);
+            string fileContents(fileSize, ' ');
+            fread((void *) fileContents.data(), 1, fileSize, fh);
 
-                Tokenizer tokenizer;
-                vector<Token> tokens = tokenizer.parse(fileContents);
-                a = fileContents.c_str();
+            Tokenizer tokenizer;
+            vector<Token> tokens = tokenizer.parse(fileContents);
+            a = fileContents.c_str();
 
-                Interpreter interpreter;
-                interpreter.parse(tokens);
-                interpreter.debugPrint();
+            Interpreter interpreter;
+            interpreter.parse(tokens);
+            interpreter.debugPrint();
 
-               /*
+           /*
+                    for(Token currToken : tokens) {
+                        currToken.debugPrint();
+                    }
+                    string str =interpreter.debugPrint();
+                    qstr = QString::fromStdString(str);
+          */
+
+        }
 
 
+        catch (exception& err) {
+                cerr << "Error: " << err.what() << endl;
 
-
-                        for(Token currToken : tokens) {
-                            currToken.debugPrint();
-                        }
-
-
-
-
-                        string str =interpreter.debugPrint();
-                        qstr = QString::fromStdString(str);
-
-              */
+            } catch (...) {
+                cerr << "Unknown Error." << endl;
 
             }
 
-
-            catch (exception& err) {
-                    cerr << "Error: " << err.what() << endl;
-
-                } catch (...) {
-                    cerr << "Unknown Error." << endl;
-
-                }
-
-            ui->plainTextEdit_2->setPlainText(a);
-
-
+        ui->plainTextEdit_2->setPlainText(a);
 
 
     m_chatClient->sendMessage(ui->plainTextEdit->toPlainText());
@@ -173,15 +163,8 @@ void Widget::on_startButton_clicked()
 
 void Widget::on_clearLogButton_clicked()
 {
-    ui->plainTextEdit_2->clear();
 
 
-    QString filename = "./test.myc";
-    QFile file(filename);
-    if (file.open(QIODevice::WriteOnly| QIODevice::Truncate)) {
-            QTextStream stream(&file);
-            stream.reset();
-        }
 }
 
 void Widget::error(QAbstractSocket::SocketError socketError)
@@ -240,4 +223,28 @@ void Widget::error(QAbstractSocket::SocketError socketError)
 
     ui->plainTextEdit->setEnabled(false);
 
+}
+
+
+
+
+
+void Widget::on_pushButton_19_clicked()
+{
+
+
+}
+
+
+
+
+void Widget::on_pushButton_18_clicked()
+{
+    ui->plainTextEdit_2->clear();
+    QString filename2 = "/home/garroakion/Desktop/C!/ITCR.DatosII.ProyectoI/Client/test.myc";
+    QFile file2(filename2);
+    if (file2.open(QIODevice::WriteOnly| QIODevice::Truncate)) {
+            QTextStream stream(&file2);
+            stream.reset();
+        }
 }

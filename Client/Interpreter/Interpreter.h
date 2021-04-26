@@ -24,7 +24,7 @@ namespace interpreter {
 
         void parse(vector<Token> &tokens);
 
-        string debugPrint() const;
+        void debugPrint() const;
 
     private:
 

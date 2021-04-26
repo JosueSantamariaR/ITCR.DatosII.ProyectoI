@@ -12,33 +12,6 @@ namespace interpreter{
         currentToken.mLineNumber = 1;
 
         for (char currCh : inProgram) {
-            if (currentToken.mType == STRING_ESCAPE_SEQUENCE) {
-                switch (currCh) {
-                    case 'n':
-                        currentToken.mText.append(1, '\n');
-                        break;
-                    case 'r':
-                        currentToken.mText.append(1, '\r');
-                        break;
-                    case 't':
-                        currentToken.mText.append(1, '\t');
-                        break;
-                    case '\\':
-                        currentToken.mText.append(1, '\\');
-                        break;
-                    default:
-                        throw runtime_error(string("unknown escape sequence: \\") + string(1, currCh) +
-                                            " in string on line " + to_string(currentToken.mLineNumber) + ".");
-                        break;
-                }
-                currentToken.mType = STRING_LITERAL;
-                continue;
-            } else if (currentToken.mType == POTENTIAL_COMMENT && currCh != '/') {
-                currentToken.mType = OPERATOR;
-                endToken(currentToken, tokens);
-                continue;
-            }
-
             switch (currCh) {
                 case '0':
                 case '1':
@@ -107,7 +80,7 @@ namespace interpreter{
                     }
                     break;
 
-                case '\r':
+
                 case '\n':
                     endToken(currentToken, tokens);
                     ++currentToken.mLineNumber;

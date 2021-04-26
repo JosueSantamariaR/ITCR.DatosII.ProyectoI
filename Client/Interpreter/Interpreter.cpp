@@ -154,12 +154,12 @@ namespace interpreter{
         return statements;
     }
 
-    string Interpreter::debugPrint() const {
+    void Interpreter::debugPrint() const {
 
         for (auto funcPair : mFunctions) {
               funcPair.second.debugPrint();
         }
-        return 0;
+
 
     }
 
