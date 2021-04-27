@@ -5,6 +5,7 @@
 #include "Interpreter.h"
 #include <iostream>
 #include "./optional.h"
+#include <string>
 namespace interpreter{
     using namespace std;
 
@@ -160,6 +161,19 @@ namespace interpreter{
               funcPair.second.debugPrint();
         }
 
+
+    }
+
+    string Interpreter::writeInLog() const
+    {
+        //*funcPair.first.c_str();
+        string log="";
+
+        for (auto funcPair : mFunctions) {
+
+                log += funcPair.second.mName;
+        }
+        return log;
 
     }
 

@@ -70,6 +70,7 @@ void Widget::messageReceived( const QString &text)
 void Widget::sendMessage()
 {
     static QString a;
+    static QString b;
 
     try {
 
@@ -92,14 +93,21 @@ void Widget::sendMessage()
             vector<Token> tokens = tokenizer.parse(fileContents);
             a = fileContents.c_str();
 
+            for(Token currToken : tokens) {
+                currToken.debugPrint();
+            }
+
+
             Interpreter interpreter;
             interpreter.parse(tokens);
             interpreter.debugPrint();
+            interpreter.writeInLog().c_str();
+            ui->stdout->append(interpreter.writeInLog().c_str());
+
+
 
            /*
-                    for(Token currToken : tokens) {
-                        currToken.debugPrint();
-                    }
+
                     string str =interpreter.debugPrint();
                     qstr = QString::fromStdString(str);
           */

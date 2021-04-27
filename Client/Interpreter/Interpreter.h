@@ -26,6 +26,8 @@ namespace interpreter {
 
         void debugPrint() const;
 
+        string writeInLog() const;
+
     private:
 
         std::experimental::optional<VarTypes> expectType();
