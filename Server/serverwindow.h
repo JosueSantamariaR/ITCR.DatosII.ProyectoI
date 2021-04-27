@@ -20,6 +20,7 @@ private:
 private slots:
     void toggleStartServer();
     void logMessage(const QString &msg);
+    void on_startStopButton_clicked();
 };
 
 #endif // SERVERWINDOW_H

@@ -52,12 +52,14 @@ OBJECTS_DIR   = release/
 ####### Files
 
 SOURCES       = ../Server/main.cpp \
+		../Server/memoryblock.cpp \
 		../Server/serverConnect.cpp \
 		../Server/serverSends.cpp \
 		../Server/serverwindow.cpp release/moc_serverConnect.cpp \
 		release/moc_serverSends.cpp \
 		release/moc_serverwindow.cpp
 OBJECTS       = release/main.o \
+		release/memoryblock.o \
 		release/serverConnect.o \
 		release/serverSends.o \
 		release/serverwindow.o \
@@ -144,9 +146,11 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
-		../Server/Server.pro ../Server/serverConnect.h \
+		../Server/Server.pro ../Server/memoryblock.h \
+		../Server/serverConnect.h \
 		../Server/serverSends.h \
 		../Server/serverwindow.h ../Server/main.cpp \
+		../Server/memoryblock.cpp \
 		../Server/serverConnect.cpp \
 		../Server/serverSends.cpp \
 		../Server/serverwindow.cpp
@@ -176,8 +180,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Server/serverConnect.h ../Server/serverSends.h ../Server/serverwindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../Server/main.cpp ../Server/serverConnect.cpp ../Server/serverSends.cpp ../Server/serverwindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../Server/memoryblock.h ../Server/serverConnect.h ../Server/serverSends.h ../Server/serverwindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Server/main.cpp ../Server/memoryblock.cpp ../Server/serverConnect.cpp ../Server/serverSends.cpp ../Server/serverwindow.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../Server/serverwindow.ui $(DISTDIR)/
 
 
@@ -252,6 +256,9 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 release/main.o: ../Server/main.cpp ../Server/serverwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/main.o ../Server/main.cpp
 
+release/memoryblock.o: ../Server/memoryblock.cpp ../Server/memoryblock.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/memoryblock.o ../Server/memoryblock.cpp
+
 release/serverConnect.o: ../Server/serverConnect.cpp ../Server/serverConnect.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/serverConnect.o ../Server/serverConnect.cpp
 
@@ -261,7 +268,8 @@ release/serverSends.o: ../Server/serverSends.cpp ../Server/serverSends.h \
 
 release/serverwindow.o: ../Server/serverwindow.cpp ../Server/serverwindow.h \
 		ui_serverwindow.h \
-		../Server/serverSends.h
+		../Server/serverSends.h \
+		../Server/memoryblock.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release/serverwindow.o ../Server/serverwindow.cpp
 
 release/moc_serverConnect.o: release/moc_serverConnect.cpp 
