@@ -7,10 +7,24 @@
 #include <QJsonValue>
 #include <QTimer>
 
+
+/**
+ * @brief Constructor de la clase serverSends
+ * @param Objeto de tipo QObject
+ * @authors Akion&Josue
+ */
 serverSends::serverSends(QObject *parent)
     : QTcpServer(parent)
 {}
 
+
+
+
+/**
+ * @brief Metodo encargado de la conexion de los clientes
+ * @param Objeto de tipo qintptr
+ * @authors Akion&Josue
+ */
 void serverSends::incomingConnection(qintptr socketDescriptor)
 {
     serverConnect *worker = new serverConnect(this);
@@ -25,11 +39,29 @@ void serverSends::incomingConnection(qintptr socketDescriptor)
     m_clients.append(worker);
     emit logMessage(QStringLiteral("New client Connected"));
 }
+
+
+
+/**
+ * @brief Metodo que envia mensajes en formato Json
+ * @param Objeto de tipo serverConnect
+ * @param Objeto de tipo QJsonObject
+ * @authors Akion&Josue
+ */
 void serverSends::sendJson(serverConnect *destination, const QJsonObject &message)
 {
     Q_ASSERT(destination);
     destination->sendJson(message);
 }
+
+
+
+/**
+ * @brief Metodo encargado de la transmision de datos
+ * @param Objeto de tipo QJsonObject
+ * @param Objeto de tipo serverConnect
+ * @authors Akion&Josue
+ */
 void serverSends::broadcast(const QJsonObject &message, serverConnect *exclude)
 {
     for (serverConnect *worker : m_clients) {
@@ -40,6 +72,14 @@ void serverSends::broadcast(const QJsonObject &message, serverConnect *exclude)
     }
 }
 
+
+
+/**
+ * @brief Metodo de recibir un archivo de tipo Json
+ * @param Objeto de tipo serverConnect
+ * @param Objeto de tipo QJsonObject
+ * @authors Akion&Josue
+ */
 void serverSends::jsonReceived(serverConnect *sender, const QJsonObject &doc)
 {
     Q_ASSERT(sender);
@@ -47,6 +87,12 @@ void serverSends::jsonReceived(serverConnect *sender, const QJsonObject &doc)
     jsonFromLoggedIn(sender, doc);
 }
 
+
+/**
+ * @brief Metodo que notifica si el cliente se desconecto
+ * @param Objeto de tipo serverConnect
+ * @authors Akion&Josue
+ */
 void serverSends::userDisconnected(serverConnect *sender)
 {
     m_clients.removeAll(sender);
@@ -54,12 +100,25 @@ void serverSends::userDisconnected(serverConnect *sender)
     sender->deleteLater();
 }
 
+
+
+
+/**
+ * @brief Metodo que reporta los errores
+ * @param Objeto de tipo serverConnect
+ * @authors Akion&Josue
+ */
 void serverSends::userError(serverConnect *sender)
 {
     Q_UNUSED(sender)
     emit logMessage(QLatin1String("Error from client"));
 }
 
+
+/**
+ * @brief Metodo que se encarga de detener el server
+ * @authors Akion&Josue
+ */
 void serverSends::stopServer()
 {
     for (serverConnect *worker : m_clients) {
@@ -68,6 +127,12 @@ void serverSends::stopServer()
     close();
 }
 
+/**
+ * @brief Metodo que recibe los archivos Json desde el cliente
+ * @param Objeto de tipo serverConnect
+ * @param Objeto de tipo QJsonObject
+ * @authors Akion&Josue
+ */
 void serverSends::jsonFromLoggedIn(serverConnect *sender, const QJsonObject &docObj)
 {
     Q_ASSERT(sender);

@@ -4,6 +4,12 @@
 #include <QJsonParseError>
 #include <QJsonObject>
 
+
+/**
+ * @brief Constructor
+ * @param Objeto de tipo QObject
+ * @authors Akion&Josue
+ */
 serverConnect::serverConnect(QObject *parent)
     : QObject(parent)
     , m_serverSocket(new QTcpSocket(this))
@@ -15,11 +21,23 @@ serverConnect::serverConnect(QObject *parent)
     connect(m_serverSocket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, &serverConnect::error);
 }
 
+/**
+ * @brief Metodo para la descripcion del socket
+ * @param Objeto de tipo socketDescriptor
+ * @authors Akion&Josue
+ */
 bool serverConnect::setSocketDescriptor(qintptr socketDescriptor)
 {
     return m_serverSocket->setSocketDescriptor(socketDescriptor);
 }
 
+
+
+/**
+ * @brief Metodo que envia el archivo en formato Json
+ * @param Objeto de tipo QJsonObject
+ * @authors Akion&Josue
+ */
 void serverConnect::sendJson(const QJsonObject &json)
 {
     // we crate a temporary QJsonDocument forom the object and then convert it
@@ -31,11 +49,25 @@ void serverConnect::sendJson(const QJsonObject &json)
     socketStream << jsonData;
 }
 
+
+
+
+/**
+ * @brief Metodo que se encarga de desconectar al cliente
+ * @authors Akion&Josue
+ */
 void serverConnect::disconnectFromClient()
 {
     m_serverSocket->disconnectFromHost();
 }
 
+
+
+
+/**
+ * @brief Metodo que se encarga de recibir el archivo Json
+ * @authors Akion&Josue
+ */
 void serverConnect::receiveJson()
 {
     // prepare a container to hold the UTF-8 encoded JSON we receive from the socket

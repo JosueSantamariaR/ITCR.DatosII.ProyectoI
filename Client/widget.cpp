@@ -17,7 +17,11 @@
 using namespace std;
 using namespace interpreter;
 
-
+/**
+ * @brief Constructor de la clase
+ * @param QWidget
+ * @authors Akion&Josue
+ */
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -41,10 +45,20 @@ Widget::Widget(QWidget *parent)
 
 }
 
+
+/**
+ * @brief Destructor de la clase
+ * @authors Akion&Josue
+ */
 Widget::~Widget()
 {
     delete ui;
 }
+
+/**
+ * @brief Metodo que se encarga de establecer la conexion con el server
+ * @authors Akion&Josue
+ */
 void Widget::connectedToServer()
 {
     // once we connected to the server we ask the user for what username they would like to use
@@ -52,6 +66,13 @@ void Widget::connectedToServer()
     ui->plainTextEdit->setEnabled(true);
     ui->plainTextEdit_2->setEnabled(true);
 }
+
+
+/**
+ * @brief Metodo que se encarga de recibir los mensajes del servidor
+ * @param QString text
+ * @authors Akion&Josue
+ */
 void Widget::messageReceived( const QString &text)
 {
     // store the index of the new row to append to the model containing the messages
@@ -67,6 +88,13 @@ void Widget::messageReceived( const QString &text)
     // scroll the view to display the new message
 
 }
+
+
+
+/**
+ * @brief Metodo que se encarga de enviar los mensajes al servidor y abrir el documento.
+ * @authors Akion&Josue
+ */
 void Widget::sendMessage()
 {
     static QString a;
@@ -94,7 +122,15 @@ void Widget::sendMessage()
             a = fileContents.c_str();
 
             for(Token currToken : tokens) {
-                currToken.debugPrint();
+
+                string token =  currToken.mText;
+                if(token == "int" || token == "double" || token == "float"  || token == "string" || token == "char"){
+                    cout<<currToken.mText<<endl;
+                    cout<<currToken.mType<<endl;
+
+                    cout<<endl;
+
+                }
             }
 
 
@@ -145,6 +181,12 @@ void Widget::sendMessage()
 
 }
 
+
+/**
+ * @brief Metodo que se encarga de notificar la desconexion del server
+ * @authors Akion&Josue
+ */
+
 void Widget::disconnectedFromServer()
 {
     // if the client loses connection to the server
@@ -157,11 +199,16 @@ void Widget::disconnectedFromServer()
 
 }
 
+/**
+ * @brief Boton de salir
+ * @authors Akion&Josue
+ */
 
 void Widget::on_exit_clicked()
 {
     close();
 }
+
 
 
 void Widget::on_startButton_clicked()
@@ -174,6 +221,12 @@ void Widget::on_clearLogButton_clicked()
 
 
 }
+
+/**
+ * @brief Metodo que se encarga de mostrar los errores del servidor
+ * @param string value
+ * @authors Akion&Josue
+ */
 
 void Widget::error(QAbstractSocket::SocketError socketError)
 {
@@ -244,7 +297,11 @@ void Widget::on_pushButton_19_clicked()
 }
 
 
-
+/**
+ * @brief Metodo que se encarga de limpiar el archivo y el texto.
+ * @param string value
+ * @authors Akion&Josue
+ */
 
 void Widget::on_pushButton_18_clicked()
 {

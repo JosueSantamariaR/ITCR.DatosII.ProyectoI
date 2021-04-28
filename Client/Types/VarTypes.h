@@ -5,6 +5,12 @@
 
 namespace interpreter{
     using namespace std;
+
+/**
+ * @brief Declaracion de las enumeraciones
+ * @enum
+ * @authors Akion&Josue
+ */
     enum BUILTIN_TYPE {
         VOID,
         INT8,
@@ -14,6 +20,8 @@ namespace interpreter{
         DOUBLE,
         STRUCT
     };
+
+
     class VarTypes {
     public:
         VarTypes(const string &name = "", enum BUILTIN_TYPE type = VOID)
@@ -21,7 +29,7 @@ namespace interpreter{
 
         string mName;
         enum BUILTIN_TYPE mType;
-        vector<VarTypes> mFields; // for STRUCT only.
+        vector<VarTypes> mFields;
     };
 
     }

@@ -6,6 +6,13 @@
 #include <QJsonObject>
 #include <QJsonValue>
 
+
+/**
+ * @brief Constructor de la clase
+ * @param QObject
+ * @authors Akion&Josue
+ */
+
 clientSends::clientSends(QObject *parent)
     : QObject(parent)
     , m_clientSocket(new QTcpSocket(this))
@@ -21,7 +28,11 @@ clientSends::clientSends(QObject *parent)
     // Reset the m_loggedIn variable when we disconnec. Since the operation is trivial we use a lambda instead of creating another slot
 }
 
-
+/**
+ * @brief Metodo que se encarga de enviar mensajes al servidor
+ * @param QString texto
+ * @authors Akion&Josue
+ */
 void clientSends::sendMessage(const QString &text)
 {
     if (text.isEmpty())
@@ -38,11 +49,23 @@ void clientSends::sendMessage(const QString &text)
     clientStream << QJsonDocument(message).toJson();
 }
 
+
+/**
+ * @brief Metodo que se encarga de la desconexion del cliente
+ * @authors Akion&Josue
+ */
 void clientSends::disconnectFromHost()
 {
     m_clientSocket->disconnectFromHost();
 }
 
+
+
+/**
+ * @brief Metodo que se encarga de recibir el archivo Json
+ * @param QJsonObject
+ * @authors Akion&Josue
+ */
 void clientSends::jsonReceived(const QJsonObject &docObj)
 {
     // actions depend on the type of message
@@ -64,11 +87,23 @@ void clientSends::jsonReceived(const QJsonObject &docObj)
    }
 }
 
+/**
+ * @brief Metodo que se encarga de establecer la conexion con el server
+ * @param QHostAddres
+ * @param qint16
+ * @authors Akion&Josue
+ */
+
 void clientSends::connectToServer(const QHostAddress &address, quint16 port)
 {
     m_clientSocket->connectToHost(address, port);
 }
 
+
+/**
+ * @brief Metodo que se encarga de convertir los datos del socket a formato Json
+ * @authors Akion&Josue
+ */
 void clientSends::onReadyRead()
 {
     // prepare a container to hold the UTF-8 encoded JSON we receive from the socket

@@ -7,6 +7,12 @@
 #include <stdlib.h>
 #include <iostream>
 using namespace std;
+
+/**
+ * @brief Constructor de la clase
+ * @param Objeto de tipo QWidget
+ * @authors Akion&Josue
+ */
 ServerWindow::ServerWindow(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::ServerWindow)
@@ -17,11 +23,21 @@ ServerWindow::ServerWindow(QWidget *parent)
     connect(m_chatServer, &serverSends::logMessage, this, &ServerWindow::logMessage);
 }
 
+/**
+ * @brief Destructor de la clase
+ * @authors Akion&Josue
+ */
+
 ServerWindow::~ServerWindow()
 {
     delete ui;
 }
 
+
+/**
+ * @brief Metodo para el inicio del servidor.
+ * @authors Akion&Josue
+ */
 void ServerWindow::toggleStartServer()
 {
     if (m_chatServer->isListening()) {
@@ -38,10 +54,22 @@ void ServerWindow::toggleStartServer()
     }
 }
 
+/**
+ * @brief Metodo para escribir en la ventana del servidor
+ * @param A Objeto de tipo QString
+ * @authors Akion&Josue
+ */
 void ServerWindow::logMessage(const QString &msg)
 {
     ui->logEditor->appendPlainText(msg + QLatin1Char('\n'));
 }
+
+
+/**
+ * @brief Metodo para el boton de inicio
+ * @param Objeto de tipo QWidget
+ * @authors Akion&Josue
+ */
 
 void ServerWindow::on_startStopButton_clicked()
 {

@@ -3,24 +3,34 @@
 #include <iostream>
 
 namespace interpreter{
-    using namespace std;
+using namespace std;
 
 
-    void FuncDefinition::debugPrint() const {
-        cout << mName << "(\n";
+/**
+ * @brief Metodo encargado imprimir la defincion de las funciones
+ * @authors Akion&Josue
+ */
 
-        for (ParameterDefinition param : mParameters) {
-            param.debugPrint(1);
-        }
+void FuncDefinition::debugPrint() const {
+    cout << mName << "(\n";
 
-        cout << ") {\n";
-        for (Declarations declaration : mStatements) {
-            declaration.debugPrint(0);
-        }
-        cout << "}" << endl;
+    for (ParameterDefinition param : mParameters) {
+        param.debugPrint(1);
     }
 
-    void ParameterDefinition::debugPrint(size_t indent) const {
-        cout << string(indent, '\t') << mType.mName << " " << mName << endl;
+    cout << ") {\n";
+    for (Declarations declaration : mStatements) {
+        declaration.debugPrint(0);
     }
+    cout << "}" << endl;
+}
+
+/**
+ * @brief Metodo encargado imprimir la defincion de los parametros.
+ * @param size_t indent
+ * @authors Akion&Josue
+ */
+void ParameterDefinition::debugPrint(size_t indent) const {
+    cout << string(indent, '\t') << mType.mName << " " << mName << endl;
+}
 }
