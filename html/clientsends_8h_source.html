@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>C!-IDE: Fichero Fuente Client/clientsends.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">C!-IDE
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Buscar','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_922c588100a187620fdc1533bc178f73.html">Client</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">clientsends.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="clientsends_8h.html">Ir a la documentación de este archivo.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#ifndef CLIENTSENDS_H</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#define CLIENTSENDS_H</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;QObject&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;QTcpSocket&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">class </span>QHostAddress;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">class </span>QJsonDocument;</div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classclient_sends.html">   12</a></span>&#160;<span class="keyword">class </span><a class="code" href="classclient_sends.html">clientSends</a> : <span class="keyword">public</span> QObject</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;{</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    Q_OBJECT</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    Q_DISABLE_COPY(<a class="code" href="classclient_sends.html">clientSends</a>)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classclient_sends.html#a740d6944f3832765721e34b2715bcb00">clientSends</a>(QObject *parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">public</span> slots:</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classclient_sends.html#ab80359e6c547915b4cbe8ebb8f26034f">connectToServer</a>(<span class="keyword">const</span> QHostAddress &amp;address, quint16 port);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classclient_sends.html#a0f6976a6a75a9f695200d285acfa5671">sendMessage</a>(<span class="keyword">const</span> QString &amp;text);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classclient_sends.html#afdf119755821ca301d65ec0e4f95679d">disconnectFromHost</a>();</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">private</span> slots:</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">void</span> onReadyRead();</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;signals:</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">void</span> connected();</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">void</span> disconnected();</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">void</span> messageReceived(<span class="keyword">const</span> QString &amp;sender, <span class="keyword">const</span> QString &amp;text);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">void</span> error(QAbstractSocket::SocketError socketError);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    QTcpSocket *m_clientSocket;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">void</span> jsonReceived(<span class="keyword">const</span> QJsonObject &amp;doc);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;};</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#endif </span><span class="comment">// CLIENTSENDS_H</span></div>
+<div class="ttc" id="aclassclient_sends_html"><div class="ttname"><a href="classclient_sends.html">clientSends</a></div><div class="ttdef"><b>Definition:</b> clientsends.h:13</div></div>
+<div class="ttc" id="aclassclient_sends_html_a0f6976a6a75a9f695200d285acfa5671"><div class="ttname"><a href="classclient_sends.html#a0f6976a6a75a9f695200d285acfa5671">clientSends::sendMessage</a></div><div class="ttdeci">void sendMessage(const QString &amp;text)</div><div class="ttdoc">Metodo que se encarga de enviar mensajes al servidor.</div><div class="ttdef"><b>Definition:</b> clientsends.cpp:39</div></div>
+<div class="ttc" id="aclassclient_sends_html_a740d6944f3832765721e34b2715bcb00"><div class="ttname"><a href="classclient_sends.html#a740d6944f3832765721e34b2715bcb00">clientSends::clientSends</a></div><div class="ttdeci">clientSends(QObject *parent=nullptr)</div><div class="ttdoc">Constructor de la clase.</div><div class="ttdef"><b>Definition:</b> clientsends.cpp:19</div></div>
+<div class="ttc" id="aclassclient_sends_html_ab80359e6c547915b4cbe8ebb8f26034f"><div class="ttname"><a href="classclient_sends.html#ab80359e6c547915b4cbe8ebb8f26034f">clientSends::connectToServer</a></div><div class="ttdeci">void connectToServer(const QHostAddress &amp;address, quint16 port)</div><div class="ttdoc">Metodo que se encarga de establecer la conexion con el server.</div><div class="ttdef"><b>Definition:</b> clientsends.cpp:100</div></div>
+<div class="ttc" id="aclassclient_sends_html_afdf119755821ca301d65ec0e4f95679d"><div class="ttname"><a href="classclient_sends.html#afdf119755821ca301d65ec0e4f95679d">clientSends::disconnectFromHost</a></div><div class="ttdeci">void disconnectFromHost()</div><div class="ttdoc">Metodo que se encarga de la desconexion del cliente.</div><div class="ttdef"><b>Definition:</b> clientsends.cpp:60</div></div>
+</div><!-- fragment --></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generado por&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+</small></address>
+</body>
+</html>
