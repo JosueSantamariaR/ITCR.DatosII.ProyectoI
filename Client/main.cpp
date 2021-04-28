@@ -1,3 +1,6 @@
+/**
+  * @file main.cpp
+  * */
 #include "widget.h"
 
 #include <QApplication>

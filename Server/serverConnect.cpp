@@ -1,3 +1,6 @@
+/**
+  * @file serverConnect.cpp
+  * */
 #include "serverConnect.h"
 #include <QDataStream>
 #include <QJsonDocument>

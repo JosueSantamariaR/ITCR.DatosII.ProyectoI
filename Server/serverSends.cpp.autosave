@@ -1,16 +1,17 @@
 #include "serverSends.h"
 #include "serverConnect.h"
 #include <QThread>
+/**
+  * @file serverSends.cpp
+  * */
+
+
+
 #include <functional>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QTimer>
-
-/**
-  *
-  * @file serverSends.cpp
-  * */
 
 
 /**

@@ -1,3 +1,6 @@
+/**
+  * @file widget.cpp
+  * */
 #include "widget.h"
 #include "ui_widget.h"
 #include <QLocalSocket>

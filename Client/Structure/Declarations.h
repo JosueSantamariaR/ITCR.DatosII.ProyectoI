@@ -1,4 +1,6 @@
-
+/**
+  * @file Declarations.h
+  * */
 #pragma once
 
 #include <string>

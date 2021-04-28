@@ -1,3 +1,6 @@
+/**
+  * @file serverConnect.h
+  * */
 #ifndef SERVERWORKER_H
 #define SERVERWORKER_H
 //Prueba de errores

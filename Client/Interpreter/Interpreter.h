@@ -1,3 +1,6 @@
+/**
+  * @file Interpreter.h
+  * */
 #pragma once
 
 #include "../Tokens/Tokenizer.h"

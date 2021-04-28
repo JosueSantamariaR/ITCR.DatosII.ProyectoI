@@ -1,3 +1,6 @@
+/**
+  * @file VarTypes.h
+  * */
 #pragma once
 
 #include <string>

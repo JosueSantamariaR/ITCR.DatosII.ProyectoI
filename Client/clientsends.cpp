@@ -1,3 +1,6 @@
+/**
+  * @file clientsends.cpp
+  * */
 #include "clientsends.h"
 #include <QTcpSocket>
 #include <QDataStream>

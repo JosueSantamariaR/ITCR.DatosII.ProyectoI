@@ -1,3 +1,6 @@
+/**
+  * @file FuncDefinition.h
+  * */
 #pragma once
 
 #include "../Types/VarTypes.h"

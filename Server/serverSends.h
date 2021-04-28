@@ -1,3 +1,6 @@
+/**
+  * @file serverSends.h
+  * */
 #ifndef CHATSERVER_H
 #define CHATSERVER_H
 

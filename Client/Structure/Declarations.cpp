@@ -1,4 +1,6 @@
-
+/**
+  * @file Declarations.cpp
+  * */
 #include <iostream>
 #include "Declarations.h"
 

@@ -1,3 +1,6 @@
+/**
+  * @file serverwindow.h
+  * */
 #ifndef SERVERWINDOW_H
 #define SERVERWINDOW_H
 
