@@ -1,9 +1,16 @@
-void main() {
-
-    double foo = 1.5;
+  int main(){
+printf ("Que pasa crack");
+    double foo  = 1,5;
+    long i = 25.256;
+    double foo  = 1,5;
     int i = 25;
-    double a = 256;
-    int x = 14;
-    printf("Hello it has been %d years since I learned C.\n", 2020 - (1995 * 2 + 1));
+    printf ("papus");
+    double foo  = 1,5;
+    int i = 25;
+    printf ("probando");
+    double foo  = 1,5;
+    int i = 25;
+    char w = "hola";
+    printf ("Hello World");
 
 }

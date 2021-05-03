@@ -116,6 +116,7 @@ void Widget::sendMessage()
         if (file.open(QIODevice::ReadWrite)) {
             QTextStream stream(&file);
             stream<< ui->plainTextEdit->toPlainText();
+            cout<<"esta entrando a escribir al documento"<<endl;
         }
 
         FILE *fh = fopen("/home/garroakion/Desktop/C!/ITCR.DatosII.ProyectoI/Client/test.myc", "r");
@@ -131,16 +132,15 @@ void Widget::sendMessage()
         a = fileContents.c_str();
 
 
-        //static vector<string> vars;
-        //static stack<string> vars;
-
-         queue<string> vars;
+        queue<string> vars;
+        cout<<"lee el archivo "<<endl;
 
         int size = tokens.size();
+
         for(static int i=0;i<size;i++ ) {
             Token currToken = tokens[i];
             string token =  currToken.mText;
-            if(token == "int" || token == "double" || token == "float" || token == "string"   ){
+            if(token == "int" || token == "double" || token == "float" || token == "string" || token == "char"   ){
 
                 int top =i+4;
                 for(int j = i;j<top;j++){
@@ -148,69 +148,48 @@ void Widget::sendMessage()
                     if (currToken.mText == "="){
 
                     }else{
-                         string var =currToken.mText;
-                         vars.push(var);
-                        //cout<<currToken.mText<<endl;
+                        string var =currToken.mText;
+                        vars.push(var);
+                        cout<<"ingresando variables "<<endl;
                     }
+                }
 
-                     //vars
-                    //ui->stdout->setPlainText(currToken.mText.c_str());
+            }
+            else if(token == "printf"){
+
+                int prf =i+4;
+
+                for(int x = i;x<prf;x++){
+
+
+                    Token currToken = tokens[x];
+                    string prnt ="";
+                    i =++x;
+
+                    if(currToken.mText!="printf"){
+                        prnt += currToken.mText;
+
+                        ui->stdout->insertPlainText(prnt.c_str());
+                        ui->stdout->insertPlainText("                                                                                                                                                                                        ");
+                    }
                 }
 
             }
         }
-        int filas = vars.size()/3;
-        for(int i=0;i<filas;i++){
+
+        int nfilas = vars.size()/3;
+        for(int i=0;i<nfilas;i++){
             for(int j=0;j<3;j++){
                 string it = vars.front();
                 QTableWidgetItem  * item = new  QTableWidgetItem(it.c_str()) ;
                 ui->ramLiveView->setItem(i,j, item);
-                cout<<it<<endl;
                 vars.pop();
+                cout<<"ingresando a la tabla "<<endl;
 
             }
         }
 
-        /*
-        while (!vars.empty()) {
-                cout<<vars.front()<<endl;
-                vars.pop();
-
-            }
-            */
-
-
-}
-        /*for(Token currToken : tokens) {
-
-            string token =  currToken.mText;
-            if(token == "int" || token == "double" || token == "float"  || token == "string" || token == "char"){
-
-                cout<<currToken.mText<<endl;
-                cout<<currToken.mType<<endl;
-
-                cout<<endl;
-
-            }
-        }*/
-
-
-    /*
-            Interpreter interpreter;
-            interpreter.parse(tokens);
-            interpreter.debugPrint();
-            interpreter.writeInLog().c_str();
-            ui->stdout->append(interpreter.writeInLog().c_str());*/
-
-
-
-    /*
-
-                    string str =interpreter.debugPrint();
-                    qstr = QString::fromStdString(str);
-          */
-
-
+    }
 
 
     catch (exception& err) {
@@ -221,7 +200,7 @@ void Widget::sendMessage()
 
     }
 
-        ui->plainTextEdit_2->setPlainText(a);
+    //ui->plainTextEdit_2->setPlainText(a);
 
 
     m_chatClient->sendMessage(ui->plainTextEdit->toPlainText());
@@ -368,10 +347,12 @@ void Widget::on_pushButton_19_clicked()
 void Widget::on_pushButton_18_clicked()
 {
     ui->plainTextEdit_2->clear();
+    ui->stdout->clear();
+    ui->ramLiveView->clear();
     QString filename2 = "/home/garroakion/Desktop/C!/ITCR.DatosII.ProyectoI/Client/test.myc";
     QFile file2(filename2);
     if (file2.open(QIODevice::WriteOnly| QIODevice::Truncate)) {
-            QTextStream stream(&file2);
-            stream.reset();
-        }
+        QTextStream stream(&file2);
+        stream.reset();
+    }
 }
