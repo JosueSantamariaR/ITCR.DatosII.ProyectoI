@@ -1,9 +1,9 @@
-void main(int argc, char argv) {
+void main() {
 
     double foo = 1.5;
     int i = 25;
-    char w = "hola";
+    double a = 256;
+    int x = 14;
     printf("Hello it has been %d years since I learned C.\n", 2020 - (1995 * 2 + 1));
 
-}
 }

@@ -16,7 +16,13 @@
 #include <QMessageBox>
 #include <QHostAddress>
 #include <QtCore>
-
+#include <iostream>
+#include <vector>
+#include <string>
+#include <array>
+#include <stack>
+#include <queue>
+#include <QtGui>
 using namespace std;
 using namespace interpreter;
 
@@ -105,62 +111,115 @@ void Widget::sendMessage()
 
     try {
 
-            QString filename = "/home/garroakion/Desktop/C!/ITCR.DatosII.ProyectoI/Client/test.myc";
-            QFile file(filename);
-                if (file.open(QIODevice::ReadWrite)) {
-                        QTextStream stream(&file);
-                        stream<< ui->plainTextEdit->toPlainText();
+        QString filename = "/home/garroakion/Desktop/C!/ITCR.DatosII.ProyectoI/Client/test.myc";
+        QFile file(filename);
+        if (file.open(QIODevice::ReadWrite)) {
+            QTextStream stream(&file);
+            stream<< ui->plainTextEdit->toPlainText();
+        }
+
+        FILE *fh = fopen("/home/garroakion/Desktop/C!/ITCR.DatosII.ProyectoI/Client/test.myc", "r");
+        if (!fh) { cerr << "Can't find file." << endl; }
+        fseek(fh, 0, SEEK_END);
+        size_t fileSize = ftell(fh);
+        fseek(fh, 0, SEEK_SET);
+        string fileContents(fileSize, ' ');
+        fread((void *) fileContents.data(), 1, fileSize, fh);
+
+        Tokenizer tokenizer;
+        vector<Token> tokens = tokenizer.parse(fileContents);
+        a = fileContents.c_str();
+
+
+        //static vector<string> vars;
+        //static stack<string> vars;
+
+         queue<string> vars;
+
+        int size = tokens.size();
+        for(static int i=0;i<size;i++ ) {
+            Token currToken = tokens[i];
+            string token =  currToken.mText;
+            if(token == "int" || token == "double" || token == "float" || token == "string"   ){
+
+                int top =i+4;
+                for(int j = i;j<top;j++){
+                    Token currToken = tokens[j];
+                    if (currToken.mText == "="){
+
+                    }else{
+                         string var =currToken.mText;
+                         vars.push(var);
+                        //cout<<currToken.mText<<endl;
                     }
 
-            FILE *fh = fopen("/home/garroakion/Desktop/C!/ITCR.DatosII.ProyectoI/Client/test.myc", "r");
-            if (!fh) { cerr << "Can't find file." << endl; }
-            fseek(fh, 0, SEEK_END);
-            size_t fileSize = ftell(fh);
-            fseek(fh, 0, SEEK_SET);
-            string fileContents(fileSize, ' ');
-            fread((void *) fileContents.data(), 1, fileSize, fh);
-
-            Tokenizer tokenizer;
-            vector<Token> tokens = tokenizer.parse(fileContents);
-            a = fileContents.c_str();
-
-            for(Token currToken : tokens) {
-
-                string token =  currToken.mText;
-                if(token == "int" || token == "double" || token == "float"  || token == "string" || token == "char"){
-                    cout<<currToken.mText<<endl;
-                    cout<<currToken.mType<<endl;
-
-                    cout<<endl;
-
+                     //vars
+                    //ui->stdout->setPlainText(currToken.mText.c_str());
                 }
+
             }
+        }
+        int filas = vars.size()/3;
+        for(int i=0;i<filas;i++){
+            for(int j=0;j<3;j++){
+                string it = vars.front();
+                QTableWidgetItem  * item = new  QTableWidgetItem(it.c_str()) ;
+                ui->ramLiveView->setItem(i,j, item);
+                cout<<it<<endl;
+                vars.pop();
+
+            }
+        }
+
+        /*
+        while (!vars.empty()) {
+                cout<<vars.front()<<endl;
+                vars.pop();
+
+            }
+            */
 
 
+}
+        /*for(Token currToken : tokens) {
+
+            string token =  currToken.mText;
+            if(token == "int" || token == "double" || token == "float"  || token == "string" || token == "char"){
+
+                cout<<currToken.mText<<endl;
+                cout<<currToken.mType<<endl;
+
+                cout<<endl;
+
+            }
+        }*/
+
+
+    /*
             Interpreter interpreter;
             interpreter.parse(tokens);
             interpreter.debugPrint();
             interpreter.writeInLog().c_str();
-            ui->stdout->append(interpreter.writeInLog().c_str());
+            ui->stdout->append(interpreter.writeInLog().c_str());*/
 
 
 
-           /*
+    /*
 
                     string str =interpreter.debugPrint();
                     qstr = QString::fromStdString(str);
           */
 
-        }
 
 
-        catch (exception& err) {
-                cerr << "Error: " << err.what() << endl;
 
-            } catch (...) {
-                cerr << "Unknown Error." << endl;
+    catch (exception& err) {
+        cerr << "Error: " << err.what() << endl;
 
-            }
+    } catch (...) {
+        cerr << "Unknown Error." << endl;
+
+    }
 
         ui->plainTextEdit_2->setPlainText(a);
 
