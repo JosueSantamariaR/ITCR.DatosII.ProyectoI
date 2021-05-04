@@ -40,7 +40,6 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
     // the model for the messages will have 1 column
-
     // connect the signals from the chat client to the slots in this ui
     connect(m_chatClient, &clientSends::connected, this, &Widget::connectedToServer);
     connect(m_chatClient, &clientSends::messageReceived, this, &Widget::messageReceived);
@@ -51,7 +50,6 @@ Widget::Widget(QWidget *parent)
     m_chatClient->connectToServer(QHostAddress("127.0.0.1"), 1967);
     // connect the click of the "send" button and the press of the enter while typing to the slot that sends the message
     connect(ui->startButton, &QPushButton::clicked, this, &Widget::sendMessage);
-
 }
 
 
@@ -76,7 +74,6 @@ void Widget::connectedToServer()
     ui->plainTextEdit_2->setEnabled(true);
 }
 
-
 /**
  * @brief Metodo que se encarga de recibir los mensajes del servidor
  * @param QString text
@@ -98,8 +95,6 @@ void Widget::messageReceived( const QString &text)
 
 }
 
-
-
 /**
  * @brief Metodo que se encarga de enviar los mensajes al servidor y abrir el documento.
  * @authors Akion&Josue
@@ -112,7 +107,6 @@ void Widget::sendMessage()
     QString** varss;
     int sizer=20;
     varss = new QString*[sizer];
-
 
     try {
 
@@ -131,19 +125,14 @@ void Widget::sendMessage()
         fseek(fh, 0, SEEK_SET);
         string fileContents(fileSize, ' ');
         fread((void *) fileContents.data(), 1, fileSize, fh);
-
         Tokenizer tokenizer;
         vector<Token> tokens = tokenizer.parse(fileContents);
         a = fileContents.c_str();
-
-
         queue<string> vars;
         queue<string> dirs;
         cout<<"lee el archivo "<<endl;
-
         int size = tokens.size();
         int c=0;
-
         for(static int i=0;i<size;i++ ) {
             varss[c]= new QString[cols];
             Token currToken = tokens[i];
@@ -210,30 +199,22 @@ void Widget::sendMessage()
             }
         }
 
-
         int nfilas = vars.size()/3;
         for(int i=0;i<nfilas;i++){
-            for(int j=0;j<3;j++){
-                string di=dirs.front();
+            string di=dirs.front();
+            QTableWidgetItem * item2= new QTableWidgetItem(di.c_str());
+            for(int j=0;j<4;j++){
                 string it = vars.front();
-                QTableWidgetItem * item2= new QTableWidgetItem(di.c_str());
                 QTableWidgetItem  * item = new  QTableWidgetItem(it.c_str());
-                if(j==3){
-                    ui->ramLiveView->setItem(i,3, item2);
-                    dirs.pop();
-                }ui->ramLiveView->setItem(i,j, item);
-
-
+                ui->ramLiveView->setItem(i,j, item);
                 vars.pop();
-                cout<<dirs.size();
                 cout<<"ingresando a la tabla "<<endl;
-
             }
+            ui->ramLiveView->setItem(i,3, item2);
+            dirs.pop();
         }
 
     }
-
-
     catch (exception& err) {
         cerr << "Error: " << err.what() << endl;
 
@@ -241,9 +222,7 @@ void Widget::sendMessage()
         cerr << "Unknown Error." << endl;
 
     }
-
     //ui->plainTextEdit_2->setPlainText(a);
-
 
     m_chatClient->sendMessage(ui->plainTextEdit->toPlainText());
     // now we add the message to the list
@@ -256,11 +235,6 @@ void Widget::sendMessage()
     // set the alignment for the message
     m_chatModel->setData(m_chatModel->index(newRow, 0), int(Qt::AlignRight | Qt::AlignVCenter), Qt::TextAlignmentRole);
     // clear the content of the message editor
-
-
-
-
-
 
 }
 
