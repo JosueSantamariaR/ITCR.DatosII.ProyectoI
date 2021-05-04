@@ -331,19 +331,6 @@
     <string>Ps</string>
    </property>
   </widget>
-  <widget class="QLabel" name="server">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>840</y>
-     <width>44</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Server</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
@@ -379,19 +366,6 @@
    </property>
    <property name="indent">
     <number>75</number>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="exit">
-   <property name="geometry">
-    <rect>
-     <x>490</x>
-     <y>840</y>
-     <width>80</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Server exit</string>
    </property>
   </widget>
   <widget class="QWidget" name="layoutWidget">
@@ -432,39 +406,6 @@
      </widget>
     </item>
    </layout>
-  </widget>
-  <widget class="QPushButton" name="connect">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>840</y>
-     <width>80</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Connect</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="servertex">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>840</y>
-     <width>142</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QListWidget" name="listWidget">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>840</y>
-     <width>194</width>
-     <height>21</height>
-    </rect>
-   </property>
   </widget>
   <widget class="QPushButton" name="pushButton_19">
    <property name="geometry">

@@ -23,9 +23,7 @@ public:
     ~Widget();
 
 private slots:
-    void on_connect_clicked();
 
-    void on_exit_clicked();
     void on_startButton_clicked();
     void on_clearLogButton_clicked();
     void connectedToServer();

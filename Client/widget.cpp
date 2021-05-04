@@ -108,10 +108,15 @@ void Widget::sendMessage()
 {
     static QString a;
     static QString b;
+    int cols=3;
+    QString** varss;
+    int sizer=20;
+    varss = new QString*[sizer];
+
 
     try {
 
-        QString filename = "/home/garroakion/Desktop/C!/ITCR.DatosII.ProyectoI/Client/test.myc";
+        QString filename = "/home/santa/Documentos/GitHub/ITCR.DatosII.ProyectoI/Client/test.myc";
         QFile file(filename);
         if (file.open(QIODevice::ReadWrite)) {
             QTextStream stream(&file);
@@ -119,7 +124,7 @@ void Widget::sendMessage()
             cout<<"esta entrando a escribir al documento"<<endl;
         }
 
-        FILE *fh = fopen("/home/garroakion/Desktop/C!/ITCR.DatosII.ProyectoI/Client/test.myc", "r");
+        FILE *fh = fopen("/home/santa/Documentos/GitHub/ITCR.DatosII.ProyectoI/Client/test.myc", "r");
         if (!fh) { cerr << "Can't find file." << endl; }
         fseek(fh, 0, SEEK_END);
         size_t fileSize = ftell(fh);
@@ -133,29 +138,57 @@ void Widget::sendMessage()
 
 
         queue<string> vars;
+        queue<string> dirs;
         cout<<"lee el archivo "<<endl;
 
         int size = tokens.size();
+        int c=0;
 
         for(static int i=0;i<size;i++ ) {
+            varss[c]= new QString[cols];
             Token currToken = tokens[i];
             string token =  currToken.mText;
+            int m=0;
             if(token == "int" || token == "double" || token == "float" || token == "string" || token == "char"   ){
 
                 int top =i+4;
+                m=0;
                 for(int j = i;j<top;j++){
+
                     Token currToken = tokens[j];
+
                     if (currToken.mText == "="){
 
                     }else{
                         string var =currToken.mText;
+
+                        if(m==0){
+                            varss[c][m]=QString::fromStdString(var);
+                            //cout<<"Prueba: "+varss[c][m]<<endl;
+                        }if(m==1){
+                            varss[c][m]=QString::fromStdString(var);
+                            //cout<<"Prueba: "+varss[c][m]<<endl;
+                        }if(m==3){
+                            varss[c][m-1]=QString::fromStdString(var);
+                            //cout<<"Prueba: "+varss[c][m-1]<<endl;
+
+                        }
+
+                        cout<<c<<endl;
+                        cout<<&varss[c]<<endl;
                         vars.push(var);
+
+
                         cout<<"ingresando variables "<<endl;
                     }
+                    m++;
                 }
-
+                QString s=QString("0x%1").arg((quintptr)&varss[c],QT_POINTER_SIZE *2,16,QChar('0'));
+                dirs.push(s.toStdString());
+                c++;
             }
-            else if(token == "printf"){
+
+             if(token == "printf"){
 
                 int prf =i+4;
 
@@ -177,13 +210,22 @@ void Widget::sendMessage()
             }
         }
 
+
         int nfilas = vars.size()/3;
         for(int i=0;i<nfilas;i++){
             for(int j=0;j<3;j++){
+                string di=dirs.front();
                 string it = vars.front();
-                QTableWidgetItem  * item = new  QTableWidgetItem(it.c_str()) ;
-                ui->ramLiveView->setItem(i,j, item);
+                QTableWidgetItem * item2= new QTableWidgetItem(di.c_str());
+                QTableWidgetItem  * item = new  QTableWidgetItem(it.c_str());
+                if(j==3){
+                    ui->ramLiveView->setItem(i,3, item2);
+                    dirs.pop();
+                }ui->ramLiveView->setItem(i,j, item);
+
+
                 vars.pop();
+                cout<<dirs.size();
                 cout<<"ingresando a la tabla "<<endl;
 
             }
@@ -244,12 +286,6 @@ void Widget::disconnectedFromServer()
  * @brief Boton de salir
  * @authors Akion&Josue
  */
-
-void Widget::on_exit_clicked()
-{
-    close();
-}
-
 
 
 void Widget::on_startButton_clicked()
@@ -349,7 +385,7 @@ void Widget::on_pushButton_18_clicked()
     ui->plainTextEdit_2->clear();
     ui->stdout->clear();
     ui->ramLiveView->clear();
-    QString filename2 = "/home/garroakion/Desktop/C!/ITCR.DatosII.ProyectoI/Client/test.myc";
+    QString filename2 = "/home/santa/Documentos/GitHub/ITCR.DatosII.ProyectoI/Client/test.myc";
     QFile file2(filename2);
     if (file2.open(QIODevice::WriteOnly| QIODevice::Truncate)) {
         QTextStream stream(&file2);

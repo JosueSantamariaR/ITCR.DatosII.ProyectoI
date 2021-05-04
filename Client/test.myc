@@ -1,4 +1,4 @@
-  int main(){
+void main(){
 printf ("Que pasa crack");
     double foo  = 1,5;
     long i = 25.256;

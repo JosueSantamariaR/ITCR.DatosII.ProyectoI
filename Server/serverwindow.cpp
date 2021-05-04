@@ -94,13 +94,5 @@ void ServerWindow::on_startStopButton_clicked()
        MemoryBlock obj5("fdsa",2,"2565");
        memoryMap.push_back(obj5);
 
-       int size = memoryMap.size();
-       int i=0;
-       while(i<size){
-           cout<<"Name:"<<memoryMap[i].getName()<<endl;
-           cout<<"Type:"<<memoryMap[i].getMemoryvalue()<<endl;
-           cout<<"Value:"<<memoryMap[i].getValue()<<endl;
-           cout<<endl;
-           i++;
-       }
+
 }
