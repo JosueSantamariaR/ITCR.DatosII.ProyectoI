@@ -84,9 +84,7 @@ void Widget::messageReceived( const QString &text)
     // store the index of the new row to append to the model containing the messages
     int newRow = m_chatModel->rowCount();
     // we display a line containing the username only if it's different from the last username we displayed
-
     m_chatModel->insertRow(newRow);
-
     // store the message in the model
     m_chatModel->setData(m_chatModel->index(newRow, 0), text);
     // set the alignment for the message
@@ -162,16 +160,12 @@ void Widget::sendMessage()
                             //cout<<"Prueba: "+varss[c][m-1]<<endl;
 
                         }
-
-                        cout<<c<<endl;
-                        cout<<&varss[c]<<endl;
                         vars.push(var);
-
-
                         cout<<"ingresando variables "<<endl;
                     }
                     m++;
                 }
+
                 QString s=QString("0x%1").arg((quintptr)&varss[c],QT_POINTER_SIZE *2,16,QChar('0'));
                 dirs.push(s.toStdString());
                 c++;
@@ -180,22 +174,16 @@ void Widget::sendMessage()
              if(token == "printf"){
 
                 int prf =i+4;
-
                 for(int x = i;x<prf;x++){
-
-
                     Token currToken = tokens[x];
                     string prnt ="";
                     i =++x;
-
                     if(currToken.mText!="printf"){
                         prnt += currToken.mText;
-
                         ui->stdout->insertPlainText(prnt.c_str());
                         ui->stdout->insertPlainText("                                                                                                                                                                                        ");
                     }
                 }
-
             }
         }
 
@@ -223,7 +211,6 @@ void Widget::sendMessage()
 
     }
     //ui->plainTextEdit_2->setPlainText(a);
-
     m_chatClient->sendMessage(ui->plainTextEdit->toPlainText());
     // now we add the message to the list
     // store the index of the new row to append to the model containing the messages
