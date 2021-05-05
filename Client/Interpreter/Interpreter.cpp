@@ -52,9 +52,10 @@ void Interpreter::parse(vector<Token> &tokens) {
         if (expectFunctionDefinition()) {
 
         } else {
-            cerr << "Sintaxis no cumple con el lenguaje C! " << mCurrentToken->mText << "." << endl;
 
+            this->displayError.push("No se cumple con la sintaxis de C!");
             ++mCurrentToken;
+
         }
     }
 }
@@ -74,16 +75,13 @@ bool Interpreter::expectFunctionDefinition() {
     vector<Token>::iterator parseStart = mCurrentToken;
     std::experimental::optional<VarTypes> possibleType = expectType();
     if (possibleType.operator bool()) { // We have a type!
-        this->displayLog.push("Tipo funcion correcta \n");
-
         std::experimental::optional<Token> possibleName = expectIdentifier();
-
         if (possibleName.operator bool()) { // We have a name!
-            this->displayLog.push("Nombre funcion correcta \n");
+
             std::experimental::optional<Token> possibleOperator = expectOperator("(");
 
             if (possibleOperator.operator bool()) { // We have a function!
-                this->displayLog.push("Estructura funcion correcta \n");
+                this->displayLog.push("Nombre funcion correcta \n");
 
                 FuncDefinition func;
                 func.mName = possibleName->mText;
@@ -110,6 +108,7 @@ bool Interpreter::expectFunctionDefinition() {
                     }
                 }
 
+                this->displayLog.push("Estructura funcion correcta \n");
                 std::experimental::optional<vector<Declarations>> statements = parseFunctionBody();
                                                                     //-----------call-----------//
                 if (!statements.operator bool()) {
@@ -128,7 +127,9 @@ bool Interpreter::expectFunctionDefinition() {
         } else {
             mCurrentToken = parseStart;
         }
+        this->displayLog.push("Tipo funcion correcta \n");
     }
+
     return false;
 }
 

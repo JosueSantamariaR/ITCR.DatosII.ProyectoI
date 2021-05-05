@@ -24,6 +24,7 @@ namespace interpreter {
     class Interpreter {
     public:
         queue<string> displayLog;
+        queue<string> displayError;
         Interpreter();
 
         static string applog;

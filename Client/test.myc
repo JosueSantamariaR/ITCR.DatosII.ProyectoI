@@ -1,17 +1,9 @@
-void main(){
-printf ("Que pasa crack");
-    double foo  = 1.53;
-    double pr2  = 1.5;
-    int i = 2;
-    printf ("papus");
-    double asd  = 2.34;
-    int i = 252;
-    printf ("probando");
-    double fosd  = 52.24;
-    int i = 12;
-    char w = "hola";
-    printf ("Hello World");
+voiasd main(){
 
-}ello World");
+    doubasle foo  = 1.53;
+    doublase pr2  = 1.5;
+    inast i = 2;
+    prinastf ("papus");
+
 
 }

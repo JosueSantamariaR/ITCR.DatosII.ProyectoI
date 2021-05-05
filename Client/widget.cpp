@@ -140,6 +140,10 @@ void Widget::sendMessage()
         }
 
 
+        if(!interpreter.displayError.empty()){
+            ui->plainTextEdit_2->insertPlainText(interpreter.displayError.front().c_str());
+        }
+
         int size = tokens.size();
         int c=0;
         for(static int i=0;i<size;i++ ) {
@@ -147,7 +151,7 @@ void Widget::sendMessage()
             Token currToken = tokens[i];
             string token =  currToken.mText;
             int m=0;
-            if(token == "int" || token == "double" || token == "float" || token == "string" || token == "char"   ){
+            if(token == "int" || token == "double" || token == "float" || token == "string" || token == "char"  ){
 
                 int top =i+4;
                 m=0;
