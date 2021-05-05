@@ -40,7 +40,6 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
     // the model for the messages will have 1 column
-
     // connect the signals from the chat client to the slots in this ui
     connect(m_chatClient, &clientSends::connected, this, &Widget::connectedToServer);
     connect(m_chatClient, &clientSends::messageReceived, this, &Widget::messageReceived);
@@ -51,7 +50,6 @@ Widget::Widget(QWidget *parent)
     m_chatClient->connectToServer(QHostAddress("127.0.0.1"), 1967);
     // connect the click of the "send" button and the press of the enter while typing to the slot that sends the message
     connect(ui->startButton, &QPushButton::clicked, this, &Widget::sendMessage);
-
 }
 
 
@@ -76,7 +74,6 @@ void Widget::connectedToServer()
     ui->plainTextEdit_2->setEnabled(true);
 }
 
-
 /**
  * @brief Metodo que se encarga de recibir los mensajes del servidor
  * @param QString text
@@ -87,9 +84,7 @@ void Widget::messageReceived( const QString &text)
     // store the index of the new row to append to the model containing the messages
     int newRow = m_chatModel->rowCount();
     // we display a line containing the username only if it's different from the last username we displayed
-
     m_chatModel->insertRow(newRow);
-
     // store the message in the model
     m_chatModel->setData(m_chatModel->index(newRow, 0), text);
     // set the alignment for the message
@@ -97,8 +92,6 @@ void Widget::messageReceived( const QString &text)
     // scroll the view to display the new message
 
 }
-
-
 
 /**
  * @brief Metodo que se encarga de enviar los mensajes al servidor y abrir el documento.
@@ -112,7 +105,6 @@ void Widget::sendMessage()
     QString** varss;
     int sizer=20;
     varss = new QString*[sizer];
-
 
     try {
 
@@ -131,7 +123,6 @@ void Widget::sendMessage()
         fseek(fh, 0, SEEK_SET);
         string fileContents(fileSize, ' ');
         fread((void *) fileContents.data(), 1, fileSize, fh);
-
         Tokenizer tokenizer;
         vector<Token> tokens = tokenizer.parse(fileContents);
         a = fileContents.c_str();
@@ -151,7 +142,6 @@ void Widget::sendMessage()
 
         int size = tokens.size();
         int c=0;
-
         for(static int i=0;i<size;i++ ) {
             varss[c]= new QString[cols];
             Token currToken = tokens[i];
@@ -188,6 +178,7 @@ void Widget::sendMessage()
                     }
                     m++;
                 }
+
                 QString s=QString("0x%1").arg((quintptr)&varss[c],QT_POINTER_SIZE *2,16,QChar('0'));
                 dirs.push(s.toStdString());
                 c++;
@@ -196,25 +187,18 @@ void Widget::sendMessage()
              if(token == "printf"){
 
                 int prf =i+4;
-
                 for(int x = i;x<prf;x++){
-
-
                     Token currToken = tokens[x];
                     string prnt ="";
                     i =++x;
-
                     if(currToken.mText!="printf"){
                         prnt += currToken.mText;
-
                         ui->stdout->insertPlainText(prnt.c_str());
                         ui->stdout->insertPlainText("                                                                                                                                                                                        ");
                     }
                 }
-
             }
         }
-
 
         int nfilas = vars.size()/3;
         for(int i=0;i<nfilas;i++){
@@ -241,10 +225,7 @@ void Widget::sendMessage()
         cerr << "Unknown Error." << endl;
 
     }
-
     //ui->plainTextEdit_2->setPlainText(a);
-
-
     m_chatClient->sendMessage(ui->plainTextEdit->toPlainText());
     // now we add the message to the list
     // store the index of the new row to append to the model containing the messages
@@ -256,11 +237,6 @@ void Widget::sendMessage()
     // set the alignment for the message
     m_chatModel->setData(m_chatModel->index(newRow, 0), int(Qt::AlignRight | Qt::AlignVCenter), Qt::TextAlignmentRole);
     // clear the content of the message editor
-
-
-
-
-
 
 }
 
