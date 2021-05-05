@@ -15,6 +15,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include "./optional.h"
+#include <queue>
 
 
 namespace interpreter {
@@ -22,7 +23,9 @@ namespace interpreter {
     using namespace std;
     class Interpreter {
     public:
+        queue<string> displayLog;
         Interpreter();
+
         static string applog;
 
         void parse(vector<Token> &tokens);

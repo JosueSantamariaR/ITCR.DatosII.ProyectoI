@@ -1,15 +1,14 @@
 void main(){
 printf ("Que pasa crack");
-    double foo  = 1,5;
-    long i = 25.256;
-    double foo  = 1,5;
-    int i = 25;
+    double foo  = 1.53;
+    double pr2  = 1.5;
+    int i = 2;
     printf ("papus");
-    double foo  = 1,5;
-    int i = 25;
+    double asd  = 2.34;
+    int i = 252;
     printf ("probando");
-    double foo  = 1,5;
-    int i = 25;
+    double fosd  = 52.24;
+    int i = 12;
     char w = "hola";
     printf ("Hello World");
 

@@ -9,6 +9,7 @@
 #include <iostream>
 #include "./optional.h"
 #include <string>
+#include <queue>
 namespace interpreter{
 using namespace std;
 /**
@@ -35,6 +36,35 @@ static map<string, OperatorEntry> sOperators{
 };
 
 
+
+
+/**
+     * @brief Metodo encargado de analizar si los tokens cumple con la estructura esperada
+     * @param
+     * @authors Akion&Josue
+     */
+
+void Interpreter::parse(vector<Token> &tokens) {
+    mEndToken = tokens.end();
+    mCurrentToken = tokens.begin();
+
+    while(mCurrentToken != mEndToken) {
+        if (expectFunctionDefinition()) {
+
+        } else {
+            cerr << "Sintaxis no cumple con el lenguaje C! " << mCurrentToken->mText << "." << endl;
+
+            ++mCurrentToken;
+        }
+    }
+}
+
+
+
+
+
+
+
 /**
      * @brief Metodo encargado de buscar si cumple con la definicion de la estructura esperada de la funcion
      * @authors Akion&Josue
@@ -44,12 +74,16 @@ bool Interpreter::expectFunctionDefinition() {
     vector<Token>::iterator parseStart = mCurrentToken;
     std::experimental::optional<VarTypes> possibleType = expectType();
     if (possibleType.operator bool()) { // We have a type!
+        this->displayLog.push("Tipo funcion correcta \n");
+
         std::experimental::optional<Token> possibleName = expectIdentifier();
 
         if (possibleName.operator bool()) { // We have a name!
+            this->displayLog.push("Nombre funcion correcta \n");
             std::experimental::optional<Token> possibleOperator = expectOperator("(");
 
             if (possibleOperator.operator bool()) { // We have a function!
+                this->displayLog.push("Estructura funcion correcta \n");
 
                 FuncDefinition func;
                 func.mName = possibleName->mText;
@@ -77,6 +111,7 @@ bool Interpreter::expectFunctionDefinition() {
                 }
 
                 std::experimental::optional<vector<Declarations>> statements = parseFunctionBody();
+                                                                    //-----------call-----------//
                 if (!statements.operator bool()) {
                     mCurrentToken = parseStart;
                     return false;
@@ -84,6 +119,7 @@ bool Interpreter::expectFunctionDefinition() {
                 func.mStatements.insert(func.mStatements.begin(), statements->begin(), statements->end());
 
                 mFunctions[func.mName] = func;
+                this->displayLog.push("Contiene declaraciones \n");
 
                 return true;
             } else {
@@ -96,67 +132,92 @@ bool Interpreter::expectFunctionDefinition() {
     return false;
 }
 
+
 /**
-     * @brief Metodo encargado de analizar si los tokens cumple con la estructura esperada
-     * @param
-     * @authors Akion&Josue
-     */
+ * @brief Metodo encargado de establecer las declaraciones dentro del metodo principal
+ * @authors Akion&Josue
+ */
+std::experimental::optional<vector<Declarations>> Interpreter::parseFunctionBody() {
+    if (!expectOperator("{").operator bool()) {
+        return std::experimental::nullopt;
+    }
 
-void Interpreter::parse(vector<Token> &tokens) {
-    mEndToken = tokens.end();
-    mCurrentToken = tokens.begin();
+    vector<Declarations> statements;
 
-    while(mCurrentToken != mEndToken) {
-        if (expectFunctionDefinition()) {
+    while(!expectOperator("}").operator bool()) {
+        std::experimental::optional<Declarations> statement = expectStatement();
+                                                    //-----------call-----------//
+        if (statement.operator bool()) {
+            statements.push_back(statement.value());
+        }
 
-        } else {
-            cerr << "Sintaxis no cumple con el lenguaje C! " << mCurrentToken->mText << "." << endl;
-            ++mCurrentToken;
+        if (!expectOperator(";").operator bool()) {
+            throw runtime_error("Expected ';' at end of statement.");
         }
     }
+    this->displayLog.push("Agrega las declaraciones \n");
+
+    return statements;
 }
 
 
 
 /**
- * @brief Metodo encargado de establecer si los tokens cumple con la estructura de identificador esperada
+ * @brief Metodo encargado de establecer tokens cumple con la estructura de identificador esperada
  * @param string &name
  * @authors Akion&Josue
  */
-std::experimental::optional<Token> Interpreter::expectIdentifier(const string &name) {
-    if (mCurrentToken == mEndToken) { return std::experimental::nullopt; }
-    if (mCurrentToken->mType != IDENTIFIER) { return std::experimental::nullopt; }
-    if (!name.empty() && mCurrentToken->mText != name) { return std::experimental::nullopt; }
-
-    Token returnToken = *mCurrentToken;
-    ++mCurrentToken;
-    return returnToken;
+std::experimental::optional<Declarations> Interpreter::expectStatement() {
+    std::experimental::optional<Declarations> result = expectExpression();
+    if (!result.operator bool()) {
+        result = expectVariableDeclaration();  //-----------call-----------//
+    }
+    this->displayLog.push("Comprueba las declaraciones \n");
+    return result;
 }
 
 
 /**
- * @brief Metodo encargado de establecer si los tokens cumple con la estructura de operador esperada
+ * @brief Metodo encargado de establecer si las variables cumplen con la estructura de declaracion
  * @param string &name
  * @authors Akion&Josue
  */
-std::experimental::optional<Token> Interpreter::expectOperator(const string &name) {
-    if (mCurrentToken == mEndToken) { return std::experimental::nullopt; }
-    if (mCurrentToken->mType != OPERATOR) { return std::experimental::nullopt; }
-    if (!name.empty() && mCurrentToken->mText != name) { return std::experimental::nullopt; }
+std::experimental::optional<Declarations> Interpreter::expectVariableDeclaration() {
+    vector<Token>::iterator startToken = mCurrentToken;
+    std::experimental::optional<VarTypes> possibleType = expectType(); //Busca el tipo de variable
+    if (!possibleType.operator bool()) {
+        mCurrentToken = startToken;
+        return std::experimental::nullopt;
+    }
+    this->displayLog.push("Busca el tipo de las variables \n");
 
-    Token returnToken = *mCurrentToken;
-    ++mCurrentToken;
-    return returnToken;
+    std::experimental::optional<Token> possibleVariableName = expectIdentifier();  //Busca el nombre
+    if (!possibleType.operator bool()) {
+        mCurrentToken = startToken;
+        return std::experimental::nullopt;
+    }
+    this->displayLog.push("Busca el nombre de las variables \n");
+
+    Declarations declaration;
+
+    declaration.mKind = StatementKind::VARIABLE_DECLARATION;
+    declaration.mName = possibleVariableName->mText;
+    declaration.mType = possibleType.value();
+
+    if (expectOperator("=").operator bool()) {
+        std::experimental::optional<Declarations> initialValue = expectExpression(); //Busca el valor
+                                                  //-----------call-----------//
+        if (!initialValue.operator bool()) {
+            throw runtime_error("Expected initial value to right of '=' in variable declaration.");
+        }
+
+        declaration.mParameters.push_back(initialValue.value());
+    }
+    this->displayLog.push("Busca el valor de la variable \n");
+
+    return declaration;
 }
 
-Interpreter::Interpreter() {
-    mTypes["void"] = VarTypes("void", VOID);
-    mTypes["int"] = VarTypes("signed int", INT32);
-    mTypes["unsigned"] = VarTypes("unsigned int", UINT32);
-    mTypes["char"] = VarTypes("signed char", INT8);
-    mTypes["uint8_t"] = VarTypes("uint8_t", INT8);
-    mTypes["double"] = VarTypes("double", DOUBLE);
-}
 
 
 /**
@@ -178,63 +239,68 @@ std::experimental::optional<VarTypes> Interpreter::expectType() {
 }
 
 
-/**
- * @brief Metodo encargado de establecer las declaraciones dentro del metodo principal
- * @authors Akion&Josue
- */
-std::experimental::optional<vector<Declarations>> Interpreter::parseFunctionBody() {
-    if (!expectOperator("{").operator bool()) {
-        return std::experimental::nullopt;
-    }
-
-    vector<Declarations> statements;
-
-    while(!expectOperator("}").operator bool()) {
-        std::experimental::optional<Declarations> statement = expectStatement();
-        if (statement.operator bool()) {
-            statements.push_back(statement.value());
-        }
-
-        if (!expectOperator(";").operator bool()) {
-            throw runtime_error("Expected ';' at end of statement.");
-        }
-    }
-
-    return statements;
-}
-
 
 /**
- * @brief Metodo encargado imprimir los tokens interpretados
- * @authors Akion&Josue
- */
-void Interpreter::debugPrint() const {
-
-    for (auto funcPair : mFunctions) {
-        funcPair.second.debugPrint();
-    }
-
-
-}
-
-/**
- * @brief Metodo encargado de escribir en el log
+ * @brief Metodo encargado de establecer si los tokens cumple con la estructura de identificador esperada
  * @param string &name
  * @authors Akion&Josue
  */
-string Interpreter::writeInLog() const
-{
-    //*funcPair.first.c_str();
-    string log="";
+std::experimental::optional<Token> Interpreter::expectIdentifier(const string &name) {
+    if (mCurrentToken == mEndToken) { return std::experimental::nullopt; }
+    if (mCurrentToken->mType != IDENTIFIER) { return std::experimental::nullopt; }
+    if (!name.empty() && mCurrentToken->mText != name) { return std::experimental::nullopt; }
 
-    for (auto funcPair : mFunctions) {
-
-        log += funcPair.second.mName;
-    }
-    return log;
-
+    Token returnToken = *mCurrentToken;
+    ++mCurrentToken;
+    return returnToken;
 }
 
+
+/**
+ * @brief Metodo encargado de la comparacion de precedencia de las operaciones para obtener una operacion esperada
+ * @param string &name
+ * @authors Akion&Josue
+ */
+std::experimental::optional<Declarations> Interpreter::expectExpression() {
+    std::experimental::optional<Declarations> lhs = expectOneValue();  //-----------call-----------//
+    if (!lhs.operator bool()) { return std::experimental::nullopt; }
+    this->displayLog.push("Comprueba que exista el valor \n");
+    while (true) {
+        std::experimental::optional<Token> op = expectOperator(); //-----------call-----------//
+        if (!op.operator bool()) { break; }
+        int rhsPrecedence = operatorPrecedence(op->mText);
+        if (rhsPrecedence == 0) {
+            --mCurrentToken;
+            return lhs;
+        }
+
+        std::experimental::optional<Declarations> rhs = expectOneValue(); //-----------call-----------//
+        if (!rhs.operator bool()) {
+            --mCurrentToken;
+            return lhs;
+        }
+
+        Declarations * rightmostStatement = findRightmostStatement(&lhs.value(), rhsPrecedence);
+                                            //-----------call-----------//
+        if (rightmostStatement) {
+            Declarations operatorCall;
+            operatorCall.mKind = StatementKind::OPERATOR_CALL;
+            operatorCall.mName = op->mText;
+            operatorCall.mParameters.push_back(rightmostStatement->mParameters.at(1));
+            operatorCall.mParameters.push_back(rhs.value());
+            rightmostStatement->mParameters[1] = operatorCall;
+        } else {
+            Declarations operatorCall;
+            operatorCall.mKind = StatementKind::OPERATOR_CALL;
+            operatorCall.mName = op->mText;
+            operatorCall.mParameters.push_back(lhs.value());
+            operatorCall.mParameters.push_back(rhs.value());
+            lhs = operatorCall;
+        }
+    }
+
+    return lhs;
+}
 
 /**
  * @brief Metodo encargado de establecer los tipos de valaores de las variables
@@ -270,7 +336,7 @@ std::experimental::optional<Declarations> Interpreter::expectOneValue() {
         }
     }
     if (!result.operator bool()) {
-        result = expectFunctionCall();
+        result = expectFunctionCall(); //-----------call-----------//
     }
     return result;
 }
@@ -278,40 +344,33 @@ std::experimental::optional<Declarations> Interpreter::expectOneValue() {
 
 
 /**
- * @brief Metodo encargado de establecer si las variables cumplen con la estructura de declaracion
+ * @brief Metodo encargado de establecer si los tokens cumple con la estructura de operador esperada
  * @param string &name
  * @authors Akion&Josue
  */
-std::experimental::optional<Declarations> Interpreter::expectVariableDeclaration() {
-    vector<Token>::iterator startToken = mCurrentToken;
-    std::experimental::optional<VarTypes> possibleType = expectType();
-    if (!possibleType.operator bool()) {
-        mCurrentToken = startToken;
-        return std::experimental::nullopt;
-    }
+std::experimental::optional<Token> Interpreter::expectOperator(const string &name) {
+    if (mCurrentToken == mEndToken) { return std::experimental::nullopt; }
+    if (mCurrentToken->mType != OPERATOR) { return std::experimental::nullopt; }
+    if (!name.empty() && mCurrentToken->mText != name) { return std::experimental::nullopt; }
 
-    std::experimental::optional<Token> possibleVariableName = expectIdentifier();
-    if (!possibleType.operator bool()) {
-        mCurrentToken = startToken;
-        return std::experimental::nullopt;
-    }
+    Token returnToken = *mCurrentToken;
+    ++mCurrentToken;
+    return returnToken;
+}
 
-    Declarations declaration;
+/**
+ * @brief Metodo encargado devolver la operacion esperada.
+ * @param string &name
+ * @authors Akion&Josue
+ */
+Declarations * Interpreter::findRightmostStatement(Declarations *lhs, size_t rhsPrecedence) {
+    if (lhs->mKind != StatementKind::OPERATOR_CALL) { return nullptr; }
+    if (operatorPrecedence(lhs->mName) >= rhsPrecedence) { return nullptr; }
 
-    declaration.mKind = StatementKind::VARIABLE_DECLARATION;
-    declaration.mName = possibleVariableName->mText;
-    declaration.mType = possibleType.value();
-
-    if (expectOperator("=").operator bool()) {
-        std::experimental::optional<Declarations> initialValue = expectExpression();
-        if (!initialValue.operator bool()) {
-            throw runtime_error("Expected initial value to right of '=' in variable declaration.");
-        }
-
-        declaration.mParameters.push_back(initialValue.value());
-    }
-
-    return declaration;
+    Declarations * rhs = &lhs->mParameters.at(1);
+    rhs = findRightmostStatement(rhs, rhsPrecedence);
+    if (rhs == nullptr) { return lhs; }
+    return rhs;
 }
 
 
@@ -357,82 +416,47 @@ std::experimental::optional<Declarations> Interpreter::expectFunctionCall() {
     return functionCall;
 }
 
-
-
-
-/**
- * @brief Metodo encargado de establecer tokens cumple con la estructura de identificador esperada
- * @param string &name
- * @authors Akion&Josue
- */
-std::experimental::optional<Declarations> Interpreter::expectStatement() {
-    std::experimental::optional<Declarations> result = expectExpression();
-    if (!result.operator bool()) {
-        result = expectVariableDeclaration();
-    }
-    return result;
+Interpreter::Interpreter() {
+    mTypes["void"] = VarTypes("void", VOID);
+    mTypes["int"] = VarTypes("signed int", INT32);
+    mTypes["unsigned"] = VarTypes("unsigned int", UINT32);
+    mTypes["char"] = VarTypes("signed char", INT8);
+    mTypes["uint8_t"] = VarTypes("uint8_t", INT8);
+    mTypes["double"] = VarTypes("double", DOUBLE);
 }
 
 
 /**
- * @brief Metodo encargado de la comparacion de precedencia de las operaciones para obtener una operacion esperada
- * @param string &name
+ * @brief Metodo encargado imprimir los tokens interpretados
  * @authors Akion&Josue
  */
-std::experimental::optional<Declarations> Interpreter::expectExpression() {
-    std::experimental::optional<Declarations> lhs = expectOneValue();
-    if (!lhs.operator bool()) { return std::experimental::nullopt; }
+void Interpreter::debugPrint() const {
 
-    while (true) {
-        std::experimental::optional<Token> op = expectOperator();
-        if (!op.operator bool()) { break; }
-        int rhsPrecedence = operatorPrecedence(op->mText);
-        if (rhsPrecedence == 0) {
-            --mCurrentToken;
-            return lhs;
-        }
-        std::experimental::optional<Declarations> rhs = expectOneValue();
-        if (!rhs.operator bool()) {
-            --mCurrentToken;
-            return lhs;
-        }
-
-        Declarations * rightmostStatement = findRightmostStatement(&lhs.value(), rhsPrecedence);
-        if (rightmostStatement) {
-            Declarations operatorCall;
-            operatorCall.mKind = StatementKind::OPERATOR_CALL;
-            operatorCall.mName = op->mText;
-            operatorCall.mParameters.push_back(rightmostStatement->mParameters.at(1));
-            operatorCall.mParameters.push_back(rhs.value());
-            rightmostStatement->mParameters[1] = operatorCall;
-        } else {
-            Declarations operatorCall;
-            operatorCall.mKind = StatementKind::OPERATOR_CALL;
-            operatorCall.mName = op->mText;
-            operatorCall.mParameters.push_back(lhs.value());
-            operatorCall.mParameters.push_back(rhs.value());
-            lhs = operatorCall;
-        }
+    for (auto funcPair : mFunctions) {
+        funcPair.second.debugPrint();
     }
 
-    return lhs;
 }
 
-
 /**
- * @brief Metodo encargado devolver la operacion esperada.
+ * @brief Metodo encargado de escribir en el log
  * @param string &name
  * @authors Akion&Josue
  */
-Declarations * Interpreter::findRightmostStatement(Declarations *lhs, size_t rhsPrecedence) {
-    if (lhs->mKind != StatementKind::OPERATOR_CALL) { return nullptr; }
-    if (operatorPrecedence(lhs->mName) >= rhsPrecedence) { return nullptr; }
 
-    Declarations * rhs = &lhs->mParameters.at(1);
-    rhs = findRightmostStatement(rhs, rhsPrecedence);
-    if (rhs == nullptr) { return lhs; }
-    return rhs;
+string Interpreter::writeInLog() const
+{
+    //*funcPair.first.c_str();
+    string log="";
+
+    for (auto funcPair : mFunctions) {
+
+        log += funcPair.second.mName;
+    }
+    return log;
+
 }
+
 
 /**
  * @brief Metodo encargado de identificar la precendencia

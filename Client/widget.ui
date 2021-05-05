@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>852</width>
+    <width>922</width>
     <height>876</height>
    </rect>
   </property>
@@ -47,7 +47,7 @@
     <rect>
      <x>437</x>
      <y>70</y>
-     <width>411</width>
+     <width>410</width>
      <height>360</height>
     </rect>
    </property>
@@ -56,6 +56,9 @@
      <width>410</width>
      <height>340</height>
     </size>
+   </property>
+   <property name="sizeAdjustPolicy">
+    <enum>QAbstractScrollArea::AdjustToContents</enum>
    </property>
    <property name="editTriggers">
     <set>QAbstractItemView::NoEditTriggers</set>
@@ -321,8 +324,8 @@
   <widget class="QPushButton" name="clearLogButton">
    <property name="geometry">
     <rect>
-     <x>710</x>
-     <y>440</y>
+     <x>700</x>
+     <y>480</y>
      <width>131</width>
      <height>21</height>
     </rect>
@@ -386,22 +389,9 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_16">
-      <property name="baseSize">
-       <size>
-        <width>0</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>Previous</string>
-      </property>
-     </widget>
-    </item>
-    <item>
      <widget class="QPushButton" name="pushButton_18">
       <property name="text">
-       <string>Next</string>
+       <string>Clear </string>
       </property>
      </widget>
     </item>
@@ -410,8 +400,8 @@
   <widget class="QPushButton" name="pushButton_19">
    <property name="geometry">
     <rect>
-     <x>750</x>
-     <y>840</y>
+     <x>730</x>
+     <y>750</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -481,6 +471,39 @@
     <number>75</number>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton_16">
+   <property name="geometry">
+    <rect>
+     <x>700</x>
+     <y>590</y>
+     <width>127</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="baseSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="text">
+    <string>Previous</string>
+   </property>
+  </widget>
+  <zorder>pushButton_16</zorder>
+  <zorder>line_4</zorder>
+  <zorder>line_2</zorder>
+  <zorder>ramLiveView</zorder>
+  <zorder>label_5</zorder>
+  <zorder>line</zorder>
+  <zorder>plainTextEdit</zorder>
+  <zorder>clearLogButton</zorder>
+  <zorder>label_4</zorder>
+  <zorder>layoutWidget</zorder>
+  <zorder>pushButton_19</zorder>
+  <zorder>stdout</zorder>
+  <zorder>label_6</zorder>
+  <zorder>plainTextEdit_2</zorder>
  </widget>
  <resources/>
  <connections/>

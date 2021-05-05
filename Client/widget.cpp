@@ -116,15 +116,15 @@ void Widget::sendMessage()
 
     try {
 
-        QString filename = "/home/santa/Documentos/GitHub/ITCR.DatosII.ProyectoI/Client/test.myc";
+        QString filename = "/home/garroakion/Desktop/C!/ITCR.DatosII.ProyectoI/Client/test.myc";
         QFile file(filename);
         if (file.open(QIODevice::ReadWrite)) {
             QTextStream stream(&file);
             stream<< ui->plainTextEdit->toPlainText();
-            cout<<"esta entrando a escribir al documento"<<endl;
+
         }
 
-        FILE *fh = fopen("/home/santa/Documentos/GitHub/ITCR.DatosII.ProyectoI/Client/test.myc", "r");
+        FILE *fh = fopen("/home/garroakion/Desktop/C!/ITCR.DatosII.ProyectoI/Client/test.myc", "r");
         if (!fh) { cerr << "Can't find file." << endl; }
         fseek(fh, 0, SEEK_END);
         size_t fileSize = ftell(fh);
@@ -136,10 +136,18 @@ void Widget::sendMessage()
         vector<Token> tokens = tokenizer.parse(fileContents);
         a = fileContents.c_str();
 
+        Interpreter interpreter;
+        interpreter.parse(tokens);
+
 
         queue<string> vars;
         queue<string> dirs;
-        cout<<"lee el archivo "<<endl;
+
+        while(!interpreter.displayLog.empty()){
+            ui->plainTextEdit_2->insertPlainText(interpreter.displayLog.front().c_str());
+            interpreter.displayLog.pop();
+        }
+
 
         int size = tokens.size();
         int c=0;
@@ -173,13 +181,10 @@ void Widget::sendMessage()
                             //cout<<"Prueba: "+varss[c][m-1]<<endl;
 
                         }
-
-                        cout<<c<<endl;
-                        cout<<&varss[c]<<endl;
                         vars.push(var);
 
 
-                        cout<<"ingresando variables "<<endl;
+
                     }
                     m++;
                 }
@@ -214,24 +219,19 @@ void Widget::sendMessage()
         int nfilas = vars.size()/3;
         for(int i=0;i<nfilas;i++){
             for(int j=0;j<3;j++){
-                string di=dirs.front();
                 string it = vars.front();
-                QTableWidgetItem * item2= new QTableWidgetItem(di.c_str());
                 QTableWidgetItem  * item = new  QTableWidgetItem(it.c_str());
-                if(j==3){
-                    ui->ramLiveView->setItem(i,3, item2);
-                    dirs.pop();
-                }ui->ramLiveView->setItem(i,j, item);
-
-
+                ui->ramLiveView->setItem(i,j, item);
                 vars.pop();
-                cout<<dirs.size();
-                cout<<"ingresando a la tabla "<<endl;
 
             }
+            string di=dirs.front();
+             QTableWidgetItem * item2= new QTableWidgetItem(di.c_str());
+             ui->ramLiveView->setItem(i,3, item2);
+             dirs.pop();
         }
-
     }
+
 
 
     catch (exception& err) {
@@ -385,7 +385,7 @@ void Widget::on_pushButton_18_clicked()
     ui->plainTextEdit_2->clear();
     ui->stdout->clear();
     ui->ramLiveView->clear();
-    QString filename2 = "/home/santa/Documentos/GitHub/ITCR.DatosII.ProyectoI/Client/test.myc";
+    QString filename2 = "/home/garroakion/Desktop/C!/ITCR.DatosII.ProyectoI/Client/test.myc";
     QFile file2(filename2);
     if (file2.open(QIODevice::WriteOnly| QIODevice::Truncate)) {
         QTextStream stream(&file2);

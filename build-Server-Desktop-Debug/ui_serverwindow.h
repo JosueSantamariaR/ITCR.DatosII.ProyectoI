@@ -64,7 +64,7 @@ public:
 
     void retranslateUi(QWidget *ServerWindow)
     {
-        ServerWindow->setWindowTitle(QCoreApplication::translate("ServerWindow", "Qt Simple Chat Server", nullptr));
+        ServerWindow->setWindowTitle(QCoreApplication::translate("ServerWindow", "Server", nullptr));
         label->setText(QCoreApplication::translate("ServerWindow", "Server Log", nullptr));
         startStopButton->setText(QCoreApplication::translate("ServerWindow", "Start Server", nullptr));
     } // retranslateUi
